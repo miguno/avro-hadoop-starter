@@ -23,6 +23,7 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
     private static final boolean KEEP_SRC_FILE = false;
     private static final boolean OVERWRITE_EXISTING_DST_FILE = true;
     private static final boolean DO_REFORMAT_HDFS = true;
+    private static final String SNAPPY_CODEC = "snappy";
 
     @Override
     protected void setUp() throws Exception {
@@ -65,6 +66,8 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
 
         AvroJob.setMapperClass(conf, TweetCountMapper.class);
         AvroJob.setReducerClass(conf, TweetCountReducer.class);
+
+        AvroJob.setOutputCodec(conf, SNAPPY_CODEC);
 
         FileInputFormat.setInputPaths(conf, inputPath);
         FileOutputFormat.setOutputPath(conf, outputPath);

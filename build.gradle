@@ -116,4 +116,4 @@ cobertura {
     includes = ['**/*.java']
 }
 
-//mainClassName = "com.miguno.avro.TODO"
+mainClassName = "com.miguno.avro.hadoop.TweetCountTest"
