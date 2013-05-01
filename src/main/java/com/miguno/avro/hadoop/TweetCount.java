@@ -3,7 +3,8 @@ package com.miguno.avro.hadoop;
 import com.miguno.avro.Tweet;
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Type;
-import org.apache.avro.mapred.*;
+import org.apache.avro.mapred.AvroJob;
+import org.apache.avro.mapred.Pair;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class TweetCount extends Configured implements Tool {
 
     private static final Logger LOG = Logger.getLogger(TweetCount.class);
+    private static final String SNAPPY_CODEC = "snappy";
 
     @Override
     public int run(String[] args) throws Exception {
@@ -65,6 +67,8 @@ public class TweetCount extends Configured implements Tool {
 
         AvroJob.setMapperClass(conf, TweetCountMapper.class);
         AvroJob.setReducerClass(conf, TweetCountReducer.class);
+
+        AvroJob.setOutputCodec(conf, SNAPPY_CODEC);
 
         FileInputFormat.setInputPaths(conf, inputPath);
         FileOutputFormat.setOutputPath(conf, outputPath);
