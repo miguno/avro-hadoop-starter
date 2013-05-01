@@ -1,6 +1,19 @@
-*.class
+# Gradle
+.gradle/
+build/
+test-output/
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# IDEA IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+generated-sources/
