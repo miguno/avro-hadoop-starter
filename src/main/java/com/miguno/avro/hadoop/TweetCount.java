@@ -21,35 +21,7 @@ import java.io.IOException;
  */
 public class TweetCount extends Configured implements Tool {
 
-    private static final Logger LOG = Logger.getLogger(MyMapper.class);
-
-    private static class MyMapper extends AvroMapper<Tweet, Pair<CharSequence, Integer>> {
-
-        private static final Integer ONE = Integer.valueOf(1);
-
-        private CharSequence username;
-
-        @Override
-        public void map(Tweet tweet, AvroCollector<Pair<CharSequence, Integer>> collector, Reporter reporter)
-                throws IOException {
-            username = tweet.getUsername();
-            collector.collect(new Pair<CharSequence, Integer>(username, ONE));
-        }
-    }
-
-    private static class MyReducer extends AvroReducer<CharSequence, Integer, Pair<CharSequence, Integer>> {
-
-        @Override
-        public void reduce(CharSequence username, Iterable<Integer> tweetCounts,
-                AvroCollector<Pair<CharSequence, Integer>> collector, Reporter reporter) throws IOException {
-            int numTotalTweets = 0;
-            for (Integer count : tweetCounts) {
-                numTotalTweets += count.intValue();
-            }
-            collector.collect(new Pair<CharSequence, Integer>(username, numTotalTweets));
-        }
-
-    }
+    private static final Logger LOG = Logger.getLogger(TweetCount.class);
 
     @Override
     public int run(String[] args) throws Exception {
@@ -91,8 +63,8 @@ public class TweetCount extends Configured implements Tool {
         AvroJob.setInputSchema(conf, Tweet.getClassSchema());
         AvroJob.setOutputSchema(conf, Pair.getPairSchema(Schema.create(Type.STRING), Schema.create(Type.INT)));
 
-        AvroJob.setMapperClass(conf, MyMapper.class);
-        AvroJob.setReducerClass(conf, MyReducer.class);
+        AvroJob.setMapperClass(conf, TweetCountMapper.class);
+        AvroJob.setReducerClass(conf, TweetCountReducer.class);
 
         FileInputFormat.setInputPaths(conf, inputPath);
         FileOutputFormat.setOutputPath(conf, outputPath);
