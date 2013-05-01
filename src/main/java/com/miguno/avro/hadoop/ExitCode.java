@@ -40,7 +40,7 @@ public enum ExitCode {
      * Returns the exit code to be returned to the shell.
      * @return the exit code
      */
-    public int getCode() {
+    public int intValue() {
       return this.code;
     }
 }

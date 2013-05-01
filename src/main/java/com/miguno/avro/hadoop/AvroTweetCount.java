@@ -8,7 +8,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.*;
@@ -30,12 +29,13 @@ public class AvroTweetCount extends Configured implements Tool {
 
     private static final Logger LOG = Logger.getLogger(Map.class);
 
-      public static class Map extends MapReduceBase implements Mapper<AvroWrapper<Tweet>, NullWritable, Text, IntWritable> {
+      private static class Map extends MapReduceBase implements Mapper<AvroWrapper<Tweet>, NullWritable, Text, IntWritable> {
 
         private static final IntWritable ONE = new IntWritable(1);
 
         private Text username = new Text();
 
+        @Override
         public void map(AvroWrapper<Tweet> key, NullWritable value, OutputCollector<Text, IntWritable> output, Reporter reporter)
                 throws IOException {
             username.set(key.datum().getUsername().toString());
@@ -43,9 +43,10 @@ public class AvroTweetCount extends Configured implements Tool {
         }
     }
 
-    public static class Reduce extends MapReduceBase
+    private static class Reduce extends MapReduceBase
             implements Reducer<Text, IntWritable, AvroWrapper<Pair<CharSequence, Integer>>, NullWritable> {
 
+        @Override
         public void reduce(Text key, Iterator<IntWritable> values,
                 OutputCollector<AvroWrapper<Pair<CharSequence, Integer>>, NullWritable> output, Reporter reporter)
                 throws IOException {
@@ -61,11 +62,11 @@ public class AvroTweetCount extends Configured implements Tool {
     public int run(String[] args) throws Exception {
         if (args.length != 2) {
             LOG.error(String.format("Usage: %s <input path> <output path>", getClass().getSimpleName()));
-            return ExitCode.ERROR_ILLEGAL_CLI_ARGUMENTS.getCode();
+            return ExitCode.ERROR_ILLEGAL_CLI_ARGUMENTS.intValue();
         }
 
         JobConf conf = new JobConf(AvroTweetCount.class);
-        conf.setJobName("avro-wordcount");
+        conf.setJobName("avro-tweetcount");
 
         // Note that AvroJob#setInputSchema() and AvroJob#setOutputSchema() set relevant config options such as
         // input/output format, map output classes, and output key class.
@@ -86,10 +87,10 @@ public class AvroTweetCount extends Configured implements Tool {
         RunningJob job = JobClient.runJob(conf);
         job.waitForCompletion();
         if (job.isSuccessful()) {
-            return ExitCode.SUCCESS.getCode();
+            return ExitCode.SUCCESS.intValue();
         }
         else {
-            return ExitCode.ERROR_JOB_FAILED.getCode();
+            return ExitCode.ERROR_JOB_FAILED.intValue();
         }
     }
 
