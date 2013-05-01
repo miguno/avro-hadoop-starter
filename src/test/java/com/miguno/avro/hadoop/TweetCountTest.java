@@ -9,6 +9,7 @@ import org.apache.avro.mapred.Pair;
 import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapred.*;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 public class TweetCountTest extends ClusterMapReduceTestCase {
 
+    private static final Logger LOG = Logger.getLogger(TweetCountTest.class);
     private static final boolean KEEP_SRC_FILE = false;
     private static final boolean OVERWRITE_EXISTING_DST_FILE = true;
     private static final boolean DO_REFORMAT_HDFS = true;
@@ -69,13 +71,19 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
     }
 
     private void upload(String resourceFile, Path dstPath) throws IOException {
+        LOG.debug("Uploading " + resourceFile + " to " + dstPath);
         Path originalInputFile = new Path(Resources.getResource(resourceFile).getPath());
-        Path testInputFile = new Path(dstPath, resourceFile);
+        Path testInputFile = new Path(dstPath, fileNameOf(resourceFile));
         getFileSystem().copyFromLocalFile(KEEP_SRC_FILE, OVERWRITE_EXISTING_DST_FILE, originalInputFile, testInputFile);
+    }
+
+    private String fileNameOf(String resourceFile) {
+        return new Path(resourceFile).getName();
     }
 
     private void assertThatAvroOutputIsIdentical(String expectedOutputResourceFile, Path outputFile)
             throws IOException {
+        LOG.debug("Comparing contents of " + expectedOutputResourceFile + " and " + outputFile);
         Path expectedOutput = new Path(Resources.getResource(expectedOutputResourceFile).getPath());
         Path tmpLocalOutput = createTempLocalPath();
         getFileSystem().copyToLocalFile(outputFile, tmpLocalOutput);
