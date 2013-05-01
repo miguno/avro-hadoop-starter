@@ -4,6 +4,7 @@ import com.google.common.io.Resources;
 import com.miguno.avro.Tweet;
 import com.miguno.avro.util.AvroDataComparer;
 import org.apache.avro.Schema;
+import org.apache.avro.Schema.Type;
 import org.apache.avro.mapred.AvroJob;
 import org.apache.avro.mapred.Pair;
 import org.apache.hadoop.fs.FileUtil;
@@ -61,8 +62,7 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
         conf.setJobName("test-tweetcount");
 
         AvroJob.setInputSchema(conf, Tweet.getClassSchema());
-        AvroJob.setOutputSchema(conf, Pair.getPairSchema(Schema.create(Schema.Type.STRING), Schema.create(
-                Schema.Type.INT)));
+        AvroJob.setOutputSchema(conf, Pair.getPairSchema(Schema.create(Type.STRING), Schema.create(Type.INT)));
 
         AvroJob.setMapperClass(conf, TweetCountMapper.class);
         AvroJob.setReducerClass(conf, TweetCountReducer.class);
