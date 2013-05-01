@@ -67,6 +67,8 @@ public class AvroTweetCount extends Configured implements Tool {
         JobConf conf = new JobConf(AvroTweetCount.class);
         conf.setJobName("avro-wordcount");
 
+        // Note that AvroJob#setInputSchema() and AvroJob#setOutputSchema() set relevant config options such as
+        // input/output format, map output classes, and output key class.
         AvroJob.setInputSchema(conf, Tweet.getClassSchema());
         // We call setOutputSchema first so we can override the configuration parameters it sets
         AvroJob.setOutputSchema(conf, Pair.getPairSchema(Schema.create(Type.STRING), Schema.create(Type.INT)));
