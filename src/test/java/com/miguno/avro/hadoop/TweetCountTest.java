@@ -26,7 +26,7 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
     protected void setUp() throws Exception {
         // Workaround that fixes NPE when trying to start MiniMRCluster;
         // for more information see http://grepalex.com/2012/10/20/hadoop-unit-testing-with-minimrcluster/
-        System.setProperty("hadoop.log.dir", "/tmp/minimrcluster-logs");
+        System.setProperty("hadoop.log.dir", System.getProperty("java.io.tmpdir") + "/minimrcluster-logs");
         super.startCluster(DO_REFORMAT_HDFS, null);
     }
 
