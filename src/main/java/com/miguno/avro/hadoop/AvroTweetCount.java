@@ -1,28 +1,9 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.miguno.avro.hadoop;
 
+import com.miguno.avro.Tweet;
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Type;
-import org.apache.avro.mapred.AvroJob;
-import org.apache.avro.mapred.AvroWrapper;
-import org.apache.avro.mapred.Pair;
+import org.apache.avro.mapred.*;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -37,29 +18,28 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 
 /**
- * The classic WordCount example modified to output Avro Pair<CharSequence, Integer> records instead of text.
+ * This MapReduce job counts the number of tweets created by Twitter users.
+ * <p/>
+ * It outputs Avro Pair<CharSequence, Integer> records instead of text.
+ * <p/>
+ * Adapted from AvroWordCount in Apache Avro.
  */
-public class AvroWordCount extends Configured implements Tool {
+public class AvroTweetCount extends Configured implements Tool {
 
     private static final Logger LOG = Logger.getLogger(Map.class);
 
-    public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, Text, IntWritable> {
+      public static class Map extends MapReduceBase implements Mapper<AvroWrapper<Tweet>, NullWritable, Text, IntWritable> {
 
         private static final IntWritable ONE = new IntWritable(1);
 
-        private Text word = new Text();
+        private Text username = new Text();
 
-        public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output, Reporter reporter)
+        public void map(AvroWrapper<Tweet> key, NullWritable value, OutputCollector<Text, IntWritable> output, Reporter reporter)
                 throws IOException {
-            String line = value.toString();
-            StringTokenizer tokenizer = new StringTokenizer(line);
-            while (tokenizer.hasMoreTokens()) {
-                word.set(tokenizer.nextToken());
-                output.collect(word, ONE);
-            }
+            username.set(key.datum().getUsername().toString());
+            output.collect(username, ONE);
         }
     }
 
@@ -77,22 +57,22 @@ public class AvroWordCount extends Configured implements Tool {
         }
     }
 
+    @Override
     public int run(String[] args) throws Exception {
         if (args.length != 2) {
             LOG.error(String.format("Usage: %s <input path> <output path>", getClass().getSimpleName()));
             return ExitCode.ERROR_ILLEGAL_CLI_ARGUMENTS.getCode();
         }
 
-        JobConf conf = new JobConf(AvroWordCount.class);
+        JobConf conf = new JobConf(AvroTweetCount.class);
         conf.setJobName("avro-wordcount");
 
+        AvroJob.setInputSchema(conf, Tweet.getClassSchema());
         // We call setOutputSchema first so we can override the configuration parameters it sets
         AvroJob.setOutputSchema(conf, Pair.getPairSchema(Schema.create(Type.STRING), Schema.create(Type.INT)));
 
         conf.setMapperClass(Map.class);
         conf.setReducerClass(Reduce.class);
-
-        conf.setInputFormat(TextInputFormat.class);
 
         conf.setMapOutputKeyClass(Text.class);
         conf.setMapOutputValueClass(IntWritable.class);
@@ -112,7 +92,7 @@ public class AvroWordCount extends Configured implements Tool {
     }
 
     public static void main(String[] args) throws Exception {
-        int exitCode = ToolRunner.run(new Configuration(), new AvroWordCount(), args);
+        int exitCode = ToolRunner.run(new Configuration(), new AvroTweetCount(), args);
         System.exit(exitCode);
     }
 }
