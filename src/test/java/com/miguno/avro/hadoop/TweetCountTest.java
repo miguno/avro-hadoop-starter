@@ -90,8 +90,12 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
         Path expectedOutput = new Path(Resources.getResource(expectedOutputResourceFile).getPath());
         Path tmpLocalOutput = createTempLocalPath();
         getFileSystem().copyToLocalFile(outputFile, tmpLocalOutput);
-        assertThat(AvroDataComparer.haveIdenticalContents(expectedOutput, tmpLocalOutput)).isTrue();
-        delete(tmpLocalOutput);
+        try {
+            assertThat(AvroDataComparer.haveIdenticalContents(expectedOutput, tmpLocalOutput)).isTrue();
+        }
+        finally {
+            delete(tmpLocalOutput);
+        }
     }
 
     private Path createTempLocalPath() throws IOException {
