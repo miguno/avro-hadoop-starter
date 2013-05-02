@@ -72,6 +72,15 @@ You can convert back and forth between the two encodings (Avro vs. JSON) using A
 [Reading and Writing Avro Files From the Command Line](http://www.michael-noll.com/blog/2013/03/17/reading-and-writing-avro-files-from-the-command-line/)
 for instructions on how to do that.
 
+Here is a snippet of the example data:
+
+```json
+{"username":"miguno","tweet":"Rock: Nerf paper, scissors is fine.","timestamp": 1366150681 }
+{"username":"BlizzardCS","tweet":"Works as intended.  Terran is IMBA.","timestamp": 1366154481 }
+{"username":"DarkTemplar","tweet":"From the shadows I come!","timestamp": 1366154681 }
+{"username":"VoidRay","tweet":"Prismatic core online!","timestamp": 1366160000 }
+```
+
 
 <a name="Java"></a>
 
