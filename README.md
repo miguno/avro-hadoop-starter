@@ -18,6 +18,8 @@ Table of Contents
     * <a href="#Examples-Streaming">Examples</a>
     * <a href="#Further readings on Hadoop Streaming">Further readings on Hadoop Streaming</a>
 * <a href="#Related documentation">Related documentation</a>
+* <a href="#Hive">Hive</a>
+* <a href="#Pig">Pig</a>
 
 ---
 
@@ -301,6 +303,20 @@ see ``part-00000.lzo`` output files instead of uncompressed ``part-00000`` files
 
 * [Streaming and Avro](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/latest/CDH4-Installation-Guide/cdh4ig_topic_26_6.html)
   -- Cloudera CDH4 documentation
+
+
+<a name="Hive"></a>
+
+# Hive
+
+TODO
+
+
+<a name="Pig"></a>
+
+# Pig
+
+TODO
 
 
 <a name="Related documentation"></a>
