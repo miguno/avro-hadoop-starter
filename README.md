@@ -114,4 +114,90 @@ MapReduce jobs that read and/or write data in Avro format:
 
 # Hadoop Streaming
 
-TODO
+## Preliminaries
+
+## How Streaming sees data when reading via AvroAsTextInputFormat
+
+When using AvroAsTextInputFormat as the input format your streaming code will receive the data in JSON format, one
+record ("datum" in Avro parlance) per line.  Note that Avro will also add a trailing TAB (``\t``) at the end of
+each line.
+
+    <JSON representation of Avro record #1>\t
+    <JSON representation of Avro record #2>\t
+    <JSON representation of Avro record #3>\t
+    ...
+
+
+## Examples
+
+_Important: The examples below assume you have access to a running Hadoop cluster._
+
+The example commands below use the Hadoop Streaming jar (for MRv1) shipped with Cloudera CDH4.  If you are not using
+CDH4 just replace the jar file with the one included in your Hadoop installation.  The Avro jar files are straight
+from the [Avro project](https://avro.apache.org/releases.html).
+
+The example input data we are using is ``twitter.avro`` from ``src/test/resources/avro/``.  Here is an excerpt of
+``twitter.avro``, shown in JSON representation:
+
+    {"username":"miguno","tweet":"Rock: Nerf paper, scissors is fine.","timestamp": 1366150681 }
+    {"username":"BlizzardCS","tweet":"Works as intended.  Terran is IMBA.","timestamp": 1366154481 }
+    {"username":"DarkTemplar","tweet":"From the shadows I come!","timestamp": 1366154681 }
+    {"username":"VoidRay","tweet":"Prismatic core online!","timestamp": 1366160000 }
+
+### Preparing the input data
+
+First we must make the input data available in HDFS.
+
+    # upload the input data
+    $ hadoop fs -mkdir streaming/input
+    $ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro streaming/input
+
+
+### Reading Avro, writing plain-text
+
+The following command reads Avro data from the relative HDFS directory ``streaming/input/`` (which normally resolves
+to ``/user/<your-unix-username>/streaming/input/``).  It writes the
+deserialized version of each data record (see section _How Streaming sees data when reading via AvroAsTextInputFormat_
+above) as is to the output HDFS directory ``streaming/output/``.  For this simple demonstration we are using
+the Unix tool ``cat`` as a naive map step implementation.  We do not need to run a reduce phase here, which is why
+we disable the reduce step via the option ``-D mapred.reduce.tasks=0`` (see
+[Specifying Map-Only Jobs](http://hadoop.apache.org/docs/r1.1.2/streaming.html#Specifying+Map-Only+Jobs) in the
+Hadoop Streaming documenation).
+
+    # run the streaming job
+    $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar \
+        -D mapred.reduce.tasks=0 \
+        -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
+        -libjars avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
+        -input  streaming/input/ \
+        -output streaming/output/ \
+        -mapper /bin/cat \
+        -inputformat org.apache.avro.mapred.AvroAsTextInputFormat
+
+Once the job completes you can inspect the output data as follows:
+
+    $ hadoop fs -cat streaming/output/part-00000 | head -4
+    {"username": "miguno", "tweet": "Rock: Nerf paper, scissors is fine.", "timestamp": 1366150681}
+    {"username": "BlizzardCS", "tweet": "Works as intended.  Terran is IMBA.", "timestamp": 1366154481}
+    {"username": "DarkTemplar", "tweet": "From the shadows I come!", "timestamp": 1366154681}
+    {"username": "VoidRay", "tweet": "Prismatic core online!", "timestamp": 1366160000}
+
+
+# Reading Avro, writing Avro
+
+To write the output in Avro format instead of plain-text, use the same general options as in the previous example but
+also add:
+
+    -outputformat org.apache.avro.mapred.AvroTextOutputFormat
+
+Note that using ``cat`` as a naive mapper as shown in the previous example will not result in the output file being
+identical to the input file.  This is because ``AvroTextOutputFormat`` will escape (quote) the input data it receives
+from ``cat``.  An illustration might be worth a thousand words:
+
+    # When using /bin/cat as mapper as in the previous example
+    $ hadoop fs -copyToLocal streaming/output/part-00000.avro .
+    $ java -jar avro-tools-1.7.4.jar tojson part-00000.avro  | head -4
+    "{\"username\": \"miguno\", \"tweet\": \"Rock: Nerf paper, scissors is fine.\", \"timestamp\": 1366150681}\t"
+    "{\"username\": \"BlizzardCS\", \"tweet\": \"Works as intended.  Terran is IMBA.\", \"timestamp\": 1366154481}\t"
+    "{\"username\": \"DarkTemplar\", \"tweet\": \"From the shadows I come!\", \"timestamp\": 1366154681}\t"
+    "{\"username\": \"VoidRay\", \"tweet\": \"Prismatic core online!\", \"timestamp\": 1366160000}\t"
