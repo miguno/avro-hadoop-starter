@@ -27,7 +27,6 @@ public class AvroDataComparer {
         GenericRecord recordFromSecond = null;
         while (firstDataFileReader.hasNext()) {
             if (!secondDataFileReader.hasNext()) {
-                LOG.error("XXX Second file has less records than first file");
                 return false;
             }
             // Reuse record objects by passing it to next(). This saves us from allocating and garbage collecting many
@@ -35,7 +34,6 @@ public class AvroDataComparer {
             recordFromFirst = firstDataFileReader.next(recordFromFirst);
             recordFromSecond = secondDataFileReader.next(recordFromSecond);
             if (!recordFromFirst.equals(recordFromSecond)) {
-                LOG.error("XXX First record != second record (" + recordFromFirst + " // " + recordFromSecond + ")");
                 return false;
             }
         }
