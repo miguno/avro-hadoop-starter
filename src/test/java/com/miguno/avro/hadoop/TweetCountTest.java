@@ -73,7 +73,7 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
         FileOutputFormat.setOutputPath(conf, outputPath);
 
         // Disable JDK 7's new bytecode verifier which requires the need for stack frames.  This is required when
-        // running this code via JDK 7.  Otherwise our map/reduce tasks will fail because of
+        // running this code via JDK 7.  Otherwise our map/reduce tasks spawned by MiniMRCluster will fail because of
         // "Error: Expecting a stackmap frame at branch target [...]"
         //
         // See also:
