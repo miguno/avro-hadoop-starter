@@ -13,7 +13,7 @@ Table of Contents
 ---
 
 
-<a name="Java></a>
+<a name="Java"></a>
 
 # Java
 
@@ -79,7 +79,7 @@ MapReduce jobs that read and/or write data in Avro format:
   -- Run Hadoop MapReduce jobs over Avro data, with map and reduce functions written in Java.
 
 
-<a name="Hadoop Streaming></a>
+<a name="Hadoop Streaming"></a>
 
 # Hadoop Streaming
 
