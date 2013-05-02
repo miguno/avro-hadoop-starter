@@ -190,6 +190,9 @@ also add:
 
     -outputformat org.apache.avro.mapred.AvroTextOutputFormat
 
+[AvroTextOutputFormat](http://avro.apache.org/docs/1.7.4/api/java/index.html?org/apache/avro/mapred/AvroTextOutputFormat.html)
+is the equivalent of TextOutputFormat for writing to Avro Data Files with a "bytes" schema.
+
 Note that using ``cat`` as a naive mapper as shown in the previous example will not result in the output file being
 identical to the input file.  This is because ``AvroTextOutputFormat`` will escape (quote) the input data it receives
 from ``cat``.  An illustration might be worth a thousand words:
