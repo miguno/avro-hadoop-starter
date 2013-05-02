@@ -139,15 +139,30 @@ Here's the basic data flow from your input data in binary Avro format to our str
 
 _Important: The examples below assume you have access to a running Hadoop cluster._
 
-The example commands below use the Hadoop Streaming jar (for MRv1) shipped with Cloudera CDH4.  If you are not using
-CDH4 just replace the jar file with the one included in your Hadoop installation.  The Avro jar files are straight
-from the [Avro project](https://avro.apache.org/releases.html).
+
+### Prerequisites
+
+The example commands below use the Hadoop Streaming jar (for MRv1) shipped with Cloudera CDH4:
+
+* [hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.2.0/hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar)
+  (as of April 2013)
+
+If you are not using Cloudera CDH4 or are using a new version of CDH4 just replace the jar file with the one included
+in your Hadoop installation.
+
+The Avro jar files are straight from the [Avro project](https://avro.apache.org/releases.html):
+
+* [avro-1.7.4.jar](http://www.eu.apache.org/dist/avro/avro-1.7.4/java/avro-1.7.4.jar)
+* [avro-mapred-1.7.4-hadoop1.jar](http://www.eu.apache.org/dist/avro/avro-1.7.4/java/avro-mapred-1.7.4-hadoop1.jar)
+* [avro-tools-1.7.4.jar](http://www.eu.apache.org/dist/avro/avro-1.7.4/java/avro-tools-1.7.4.jar)
+
 
 ### Preparing the input data
 
-The example input data we are using is ``twitter.avro`` from ``src/test/resources/avro/``.  Here is an excerpt of
+The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).  Here is an excerpt of
 ``twitter.avro``, shown in JSON representation:
 
+    $ java -jar avro-tools-1.7.4.jar tojson twitter.avro | head -4
     {"username":"miguno","tweet":"Rock: Nerf paper, scissors is fine.","timestamp": 1366150681 }
     {"username":"BlizzardCS","tweet":"Works as intended.  Terran is IMBA.","timestamp": 1366154481 }
     {"username":"DarkTemplar","tweet":"From the shadows I come!","timestamp": 1366154681 }
