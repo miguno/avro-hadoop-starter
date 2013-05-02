@@ -130,36 +130,12 @@ of tweets created by Twitter users.
 ### TweetCountTest
 
 [TweetCountTest](src/test/java/com/miguno/avro/hadoop/TweetCountTest.java) is very similar to ``TweetCount``.  It uses
-a small test input Avro file [twitter.avro](src/test/resources/avro/twitter.avro) and runs a unit test on it with the
-same MapReduce job as ``TweetCount``.  The unit test includes comparing the actual MapReduce output (in
-Snappy-compressed Avro format) with expected output.  ``TweetCountTest`` extends
+[twitter.avro](src/test/resources/avro/twitter.avro) as its input and runs a unit test on it with the same MapReduce job
+as ``TweetCount``.  The unit test includes comparing the actual MapReduce output (in Snappy-compressed Avro format) with
+expected output.  ``TweetCountTest`` extends
 [ClusterMapReduceTestCase](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/ClusterMapReduceTestCase.java)
 (MRv1), which means that the corresponding MapReduce job is launched in-memory via
 [MiniMRCluster](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/MiniMRCluster.java).
-
-Here is the Avro schema of the stub Twitter input data:
-
-```json
-{
-  "type" : "record",
-  "name" : "Tweet",
-  "namespace" : "com.miguno.avro",
-  "fields" : [ {
-    "name" : "username",
-    "type" : "string",
-    "doc"  : "Name of the user account on Twitter.com"
-  }, {
-    "name" : "tweet",
-    "type" : "string",
-    "doc"  : "The content of the user's Twitter message"
-  }, {
-    "name" : "timestamp",
-    "type" : "long",
-    "doc"  : "Unix epoch time in seconds"
-  } ],
-  "doc:" : "A basic schema for storing Twitter messages"
-}
-```
 
 
 <a name="MiniMRCluster and Hadoop MRv2"></a>
@@ -249,16 +225,7 @@ The Avro jar files are straight from the [Avro project](https://avro.apache.org/
 
 ### Preparing the input data
 
-The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).  Here is an excerpt of
-``twitter.avro``, shown in JSON representation:
-
-    $ java -jar avro-tools-1.7.4.jar tojson src/test/resources/avro/twitter.avro | head -4
-    {"username":"miguno","tweet":"Rock: Nerf paper, scissors is fine.","timestamp": 1366150681 }
-    {"username":"BlizzardCS","tweet":"Works as intended.  Terran is IMBA.","timestamp": 1366154481 }
-    {"username":"DarkTemplar","tweet":"From the shadows I come!","timestamp": 1366154681 }
-    {"username":"VoidRay","tweet":"Prismatic core online!","timestamp": 1366160000 }
-
-
+The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).
 Upload ``twitter.avro`` to HDFS to make the input data available to our streaming jobs.
 
     # upload the input data
