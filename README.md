@@ -101,7 +101,7 @@ See [Experimenting with MapReduce 2.0](http://blog.cloudera.com/blog/2012/07/exp
 information.
 
 
-## Further reading on Java
+## Further readings on Java
 
 * [Package Documentation for org.apache.avro.mapred](http://avro.apache.org/docs/1.7.4/api/java/index.html?org/apache/avro/mapred/package-summary.html)
   -- Run Hadoop MapReduce jobs over Avro data, with map and reduce functions written in Java.  This document provides
@@ -252,7 +252,7 @@ of the output data.  For instance, if ``mapred.output.compression.codec`` is set
 see ``part-00000.lzo`` output files instead of uncompressed ``part-00000`` files).
 
 
-## Further reading on Hadoop Streaming
+## Further readings on Hadoop Streaming
 
 * [Streaming and Avro](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/latest/CDH4-Installation-Guide/cdh4ig_topic_26_6.html)
   -- Cloudera CDH4 documentation
