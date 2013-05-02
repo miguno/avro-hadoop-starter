@@ -76,7 +76,7 @@ a small test input Avro file [twitter.avro](src/test/resources/avro/twitter.avro
 same MapReduce job as ``TweetCount``.  The unit test includes comparing the actual MapReduce output (in
 Snappy-compressed Avro format) with expected output.  ``TweetCountTest`` extends
 [ClusterMapReduceTestCase](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/ClusterMapReduceTestCase.java)
-(Hadoop MRv1), which means that the corresponding MapReduce job is launched in-memory via
+(MRv1), which means that the corresponding MapReduce job is launched in-memory via
 [MiniMRCluster](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/MiniMRCluster.java).
 
 Here is the Avro schema of the stub Twitter input data:
