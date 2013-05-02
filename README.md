@@ -118,9 +118,9 @@ MapReduce jobs that read and/or write data in Avro format:
 
 ## How Streaming sees data when reading via AvroAsTextInputFormat
 
-When using AvroAsTextInputFormat as the input format your streaming code will receive the data in JSON format, one
-record ("datum" in Avro parlance) per line.  Note that Avro will also add a trailing TAB (``\t``) at the end of
-each line.
+When using [AvroAsTextInputFormat](http://avro.apache.org/docs/1.7.4/api/java/org/apache/avro/mapred/AvroAsTextInputFormat.html)
+as the input format your streaming code will receive the data in JSON format, one record ("datum" in Avro parlance) per
+line.  Note that Avro will also add a trailing TAB (``\t``) at the end of each line.
 
     <JSON representation of Avro record #1>\t
     <JSON representation of Avro record #2>\t
