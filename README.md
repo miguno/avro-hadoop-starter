@@ -75,8 +75,9 @@ of tweets created by Twitter users.
 a small test input Avro file [twitter.avro](src/test/resources/avro/twitter.avro) and runs a unit test on it with the
 same MapReduce job as ``TweetCount``.  The unit test includes comparing the actual MapReduce output (in
 Snappy-compressed Avro format) with expected output.  ``TweetCountTest`` extends
-``org.apache.hadoop.mapred.ClusterMapReduceTestCase`` (Hadoop MRv1), which means that the corresponding MapReduce job
-is launched in-memory via ``MiniMRCluster``.
+[ClusterMapReduceTestCase](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/ClusterMapReduceTestCase.java)
+(Hadoop MRv1), which means that the corresponding MapReduce job is launched in-memory via
+[MiniMRCluster](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/MiniMRCluster.java).
 
 Here is the Avro schema of the stub Twitter input data:
 
@@ -110,7 +111,8 @@ Here is the Avro schema of the stub Twitter input data:
 The MiniMRCluster that is used by ``ClusterMapReduceTestCase`` in MRv1 is deprecated in Hadoop MRv2.  When using MRv2
 you should switch to
 [MiniMRClientClusterFactory](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/MiniMRClientClusterFactory.java),
-which provides a wrapper interface called ``MiniMRClientCluster`` around the ``MiniMRYarnCluster``:
+which provides a wrapper interface called ``MiniMRClientCluster`` around the
+[MiniMRYarnCluster](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapreduce/v2/MiniMRYarnCluster.java) (MRv2):
 
 > MiniMRClientClusterFactory:
 > A MiniMRCluster factory. In MR2, it provides a wrapper MiniMRClientCluster interface around the MiniMRYarnCluster.
