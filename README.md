@@ -275,10 +275,6 @@ This looks not to be supported by stock Avro at the moment.  A related JIRA tick
 For a workaround take a look at the section _Avro output for Hadoop Streaming_ at
 [avro-utils](https://github.com/tomslabs/avro-utils), a third-party library for Avro.
 
-References:
-
-* [AVRO-1067: Include OutputFormat for a specified Avro schema that works with Streaming](https://issues.apache.org/jira/browse/AVRO-1067)
-
 
 #### Enabling compression of Avro output data (Snappy or Deflate)
 
