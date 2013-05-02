@@ -108,8 +108,8 @@ Here is the Avro schema of the stub Twitter input data:
 ## MiniMRCluster and Hadoop MRv2
 
 The MiniMRCluster that is used by ``ClusterMapReduceTestCase`` in MRv1 is deprecated in Hadoop MRv2.  When using MRv2
-you should switch to ``org.apache.hadoop.mapred.MiniMRClientClusterFactory``
-([source](https://svn.apache.org/repos/asf/hadoop/common/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/MiniMRClientClusterFactory.java)),
+you should switch to
+[MiniMRClientClusterFactory](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/MiniMRClientClusterFactory.java),
 which provides a wrapper interface called ``MiniMRClientCluster`` around the ``MiniMRYarnCluster``:
 
 > MiniMRClientClusterFactory:
