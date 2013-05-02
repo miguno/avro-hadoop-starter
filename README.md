@@ -11,7 +11,7 @@ Table of Contents
     * <a href="#Avro schema">Avro schema</a>
     * <a href="#Avro data files">Avro data files</a>
 * <a href="#Java">Java</a>
-    * <a href="#Usage-Java">Usage</a>
+    * <a href="#Build and run">Build and run</a>
     * <a href="#Examples-Java">Examples</a>
     * <a href="#MiniMRCluster and Hadoop MRv2">MiniMRCluster and Hadoop MRv2</a>
     * <a href="#Further readings on Java">Further readings on Java</a>
@@ -94,7 +94,7 @@ Here is a snippet of the example data:
 # Java
 
 
-<a name="Usage-Java"></a>
+<a name="Build and run"></a>
 
 ## Usage
 
