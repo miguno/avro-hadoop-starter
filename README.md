@@ -3,6 +3,18 @@ avro-hadoop-starter
 
 Example MapReduce jobs that read and/or write data in Avro format.
 
+---
+
+Table of Contents
+
+* <a href="#Java">Java</a>
+* <a href="#Hadoop Streaming>Hadoop Streaming</a>
+
+---
+
+
+<a name="Java></a>
+
 # Java
 
 ## Examples
@@ -66,6 +78,8 @@ MapReduce jobs that read and/or write data in Avro format:
 * [Package Documentation for org.apache.avro.mapred](http://avro.apache.org/docs/1.7.4/api/java/index.html?org/apache/avro/mapred/package-summary.html)
   -- Run Hadoop MapReduce jobs over Avro data, with map and reduce functions written in Java.
 
+
+<a name="Hadoop Streaming></a>
 
 # Hadoop Streaming
 
