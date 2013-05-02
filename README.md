@@ -47,18 +47,20 @@ for executing those.
 
 ### TweetCount
 
-The class ``com.miguno.avro.hadoop.TweetCount`` implements a MapReduce job that counts the number of tweets created by
-Twitter users.
+[TweetCount](src/main/java/com/miguno/avro/hadoop/TweetCount.java) implements a MapReduce job that counts the number
+of tweets created by Twitter users.
 
     TweetCount: Usage: TweetCount <input path> <output path>
 
+
 ### TweetCountTest
 
-The class ``com.miguno.avro.hadoop.TweetCountTest`` is very similar to ``TweetCount``.  It uses a small test input Avro
-file [twitter.avro](src/test/resources/avro/twitter.avro) and runs a unit test with the same MapReduce job as
-``TweetCount`` on it. The unit test includes comparing the actual MapReduce output (in Snappy-compressed Avro format)
-with expected output.  ``TweetCountTest`` extends ``org.apache.hadoop.mapred.ClusterMapReduceTestCase`` (Hadoop MRv1),
-which means that the corresponding MapReduce job is launched in-memory via ``MiniMRCluster``.
+The class [TweetCountTest](src/test/java/com/miguno/avro/hadoop/TweetCountTest.java) is very similar to ``TweetCount``.
+It uses a small test input Avro file [twitter.avro](src/test/resources/avro/twitter.avro) and runs a unit test on it
+with the same MapReduce job as ``TweetCount``.  The unit test includes comparing the actual MapReduce output (in
+Snappy-compressed Avro format) with expected output.  ``TweetCountTest`` extends
+``org.apache.hadoop.mapred.ClusterMapReduceTestCase`` (Hadoop MRv1), which means that the corresponding MapReduce job
+is launched in-memory via ``MiniMRCluster``.
 
 Here is the Avro schema of the stub Twitter input data:
 
