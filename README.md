@@ -8,7 +8,16 @@ Example MapReduce jobs that read and/or write data in Avro format.
 Table of Contents
 
 * <a href="#Java">Java</a>
+    * <a href="#Usage-Java">Usage</a>
+    * <a href="#Examples-Java">Examples</a>
+    * <a href="#MiniMRCluster and Hadoop MRv2">MiniMRCluster and Hadoop MRv2</a>
+    * <a href="#Further readings on Java">Further readings on Java</a>
 * <a href="#Hadoop Streaming">Hadoop Streaming</a>
+    * <a href="#Preliminaries-Streaming">Preliminaries</a>
+    * <a href="#Streaming data">How Streaming sees data when reading via AvroAsTextInputFormat</a>
+    * <a href="#Examples-Streaming">Examples</a>
+    * <a href="#Further readings on Hadoop Streaming">Further readings on Hadoop Streaming</a>
+* <a href="#Related documentation">Related documentation</a>
 
 ---
 
@@ -16,6 +25,9 @@ Table of Contents
 <a name="Java"></a>
 
 # Java
+
+
+<a name="Usage-Java"></a>
 
 ## Usage
 
@@ -42,6 +54,8 @@ To run the unit tests (notably ``TweetCountTest``, see section _Examples_ below)
 Note: ``gradle test`` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run ``gradle testng``
 for executing those.
 
+
+<a name="Examples-Java"></a>
 
 ## Examples
 
@@ -87,6 +101,8 @@ Here is the Avro schema of the stub Twitter input data:
 ```
 
 
+<a name="MiniMRCluster and Hadoop MRv2"></a>
+
 ## MiniMRCluster and Hadoop MRv2
 
 The MiniMRCluster that is used by ``ClusterMapReduceTestCase`` in MRv1 is deprecated in Hadoop MRv2.  When using MRv2
@@ -103,6 +119,8 @@ See [Experimenting with MapReduce 2.0](http://blog.cloudera.com/blog/2012/07/exp
 information.
 
 
+<a name="Further readings on Java"></a>
+
 ## Further readings on Java
 
 * [Package Documentation for org.apache.avro.mapred](http://avro.apache.org/docs/1.7.4/api/java/index.html?org/apache/avro/mapred/package-summary.html)
@@ -117,10 +135,15 @@ information.
 
 # Hadoop Streaming
 
+
+<a name="Preliminaries-Streaming"></a>
+
 ## Preliminaries
 
 Important: The examples below assume you have access to a running Hadoop cluster.
 
+
+<a name="Streaming data"></a>
 
 ## How Streaming sees data when reading via AvroAsTextInputFormat
 
@@ -137,6 +160,8 @@ Here's the basic data flow from your input data in binary Avro format to our str
 
     input.avro (binary)  ---AvroAsTextInputFormat---> deserialized data (JSON) ---> Mapper
 
+
+<a name="Examples-Streaming"></a>
 
 ## Examples
 
@@ -270,11 +295,15 @@ of the output data.  For instance, if ``mapred.output.compression.codec`` is set
 see ``part-00000.lzo`` output files instead of uncompressed ``part-00000`` files).
 
 
+<a name="Further readings on Hadoop Streaming"></a>
+
 ## Further readings on Hadoop Streaming
 
 * [Streaming and Avro](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/latest/CDH4-Installation-Guide/cdh4ig_topic_26_6.html)
   -- Cloudera CDH4 documentation
 
+
+<a name="Related documentation"></a>
 
 # Related documentation
 
