@@ -119,6 +119,9 @@ information.
 
 ## Preliminaries
 
+Important: The examples below assume you have access to a running Hadoop cluster.
+
+
 ## How Streaming sees data when reading via AvroAsTextInputFormat
 
 When using [AvroAsTextInputFormat](http://avro.apache.org/docs/1.7.4/api/java/org/apache/avro/mapred/AvroAsTextInputFormat.html)
@@ -136,8 +139,6 @@ Here's the basic data flow from your input data in binary Avro format to our str
 
 
 ## Examples
-
-_Important: The examples below assume you have access to a running Hadoop cluster._
 
 
 ### Prerequisites
