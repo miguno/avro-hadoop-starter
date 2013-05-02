@@ -45,10 +45,14 @@ for executing those.
 
 ## Examples
 
+### TweetCount
+
 The class ``com.miguno.avro.hadoop.TweetCount`` implements a MapReduce job that counts the number of tweets created by
 Twitter users.  You can run this class from the command line.
 
     TweetCount: Usage: TweetCount <input path> <output path>
+
+### TweetCountTest
 
 The class ``com.miguno.avro.hadoop.TweetCountTest`` is very similar to ``TweetCount``.  It uses a small test input Avro
 file ``src/test/resources/avro/twitter.avro`` and runs a unit test with the same MapReduce job as ``TweetCount`` on it.
