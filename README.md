@@ -296,6 +296,9 @@ of the output data.  For instance, if ``mapred.output.compression.codec`` is set
 ``com.hadoop.compression.lzo.LzopCodec`` then the job's output files would be compressed with LZO (e.g. you would
 see ``part-00000.lzo`` output files instead of uncompressed ``part-00000`` files).
 
+See also [Compression and Avro](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/latest/CDH4-Installation-Guide/cdh4ig_topic_26_2.html)
+in the CDH4 documentation.
+
 
 <a name="Further readings on Hadoop Streaming"></a>
 
