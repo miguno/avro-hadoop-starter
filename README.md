@@ -7,6 +7,7 @@ Example MapReduce jobs that read and/or write data in Avro format.
 
 Table of Contents
 
+* <a href="#Example data">Example data</a>
 * <a href="#Java">Java</a>
     * <a href="#Usage-Java">Usage</a>
     * <a href="#Examples-Java">Examples</a>
@@ -22,6 +23,54 @@ Table of Contents
 * <a href="#Related documentation">Related documentation</a>
 
 ---
+
+
+<a name="Example data"></a>
+
+# Example data
+
+We are using a small Twitter-like data set as input for our example MapReduce jobs.
+
+## Avro schema
+
+[twitter.avsc](src/main/resources/avro/twitter.avsc) defines a basic schema for storing tweets:
+
+```json
+{
+  "type" : "record",
+  "name" : "Tweet",
+  "namespace" : "com.miguno.avro",
+  "fields" : [ {
+    "name" : "username",
+    "type" : "string",
+    "doc"  : "Name of the user account on Twitter.com"
+  }, {
+    "name" : "tweet",
+    "type" : "string",
+    "doc"  : "The content of the user's Twitter message"
+  }, {
+    "name" : "timestamp",
+    "type" : "long",
+    "doc"  : "Unix epoch time in seconds"
+  } ],
+  "doc:" : "A basic schema for storing Twitter messages"
+}
+```
+
+The latest version of the schema is always available at [twitter.avsc](src/main/resources/avro/twitter.avsc).
+
+
+## Avro data files
+
+The actual data is stored in the following files:
+
+* [twitter.avro](src/test/resources/avro/twitter.avro) -- encoded (serialized) version of the example data in binary
+  Avro format, compressed with Snappy
+* [twitter.json](src/test/resources/avro/twitter.json) -- JSON representation of the same example data
+
+You can convert back and forth between the two encodings (Avro vs. JSON) using Avro Tools.  See
+[Reading and Writing Avro Files From the Command Line](http://www.michael-noll.com/blog/2013/03/17/reading-and-writing-avro-files-from-the-command-line/)
+for instructions on how to do that.
 
 
 <a name="Java"></a>
