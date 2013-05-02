@@ -41,7 +41,7 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
 
         JobConf conf = createJobConf();
         updateJobConfiguration(conf, inputPath, outputPath);
-        upload("avro/input.avro", inputPath);
+        upload("avro/twitter.avro", inputPath);
 
         // when
         RunningJob job = JobClient.runJob(conf);
@@ -55,7 +55,7 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
         assertThat(outputFiles.length).isEqualTo(1);
 
         Path outputFile = outputFiles[0];
-        assertThatAvroOutputIsIdentical("avro/output.avro", outputFile);
+        assertThatAvroOutputIsIdentical("avro/expected-output.avro", outputFile);
     }
 
     private void updateJobConfiguration(JobConf conf, Path inputPath, Path outputPath) {
