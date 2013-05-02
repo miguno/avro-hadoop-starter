@@ -244,6 +244,11 @@ If you want to enable compression for the Avro output data, you must add the fol
     # for Deflate
     -D mapred.output.compress=true -D avro.output.codec=deflate
 
+Be aware that if you enable compression with ``mapred.output.compress`` but are NOT specifying an Avro output format
+(such as AvroTextOutputFormat) your cluster's configured default compression codec will determine the final format
+of the output data.  For instance, if ``mapred.output.compression.codec`` is set to
+``com.hadoop.compression.lzo.LzopCodec`` then the job's output files would be compressed with LZO (e.g. you would
+see ``part-00000.lzo`` output files instead of uncompressed ``part-00000`` files).
 
 # Related Documentation
 
