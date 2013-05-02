@@ -55,9 +55,9 @@ of tweets created by Twitter users.
 
 ### TweetCountTest
 
-The class [TweetCountTest](src/test/java/com/miguno/avro/hadoop/TweetCountTest.java) is very similar to ``TweetCount``.
-It uses a small test input Avro file [twitter.avro](src/test/resources/avro/twitter.avro) and runs a unit test on it
-with the same MapReduce job as ``TweetCount``.  The unit test includes comparing the actual MapReduce output (in
+[TweetCountTest](src/test/java/com/miguno/avro/hadoop/TweetCountTest.java) is very similar to ``TweetCount``.  It uses
+a small test input Avro file [twitter.avro](src/test/resources/avro/twitter.avro) and runs a unit test on it with the
+same MapReduce job as ``TweetCount``.  The unit test includes comparing the actual MapReduce output (in
 Snappy-compressed Avro format) with expected output.  ``TweetCountTest`` extends
 ``org.apache.hadoop.mapred.ClusterMapReduceTestCase`` (Hadoop MRv1), which means that the corresponding MapReduce job
 is launched in-memory via ``MiniMRCluster``.
