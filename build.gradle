@@ -94,7 +94,7 @@ sourceSets {
 
 test {
     useTestNG() {
-        suiteXmlBuilder().suite(name: 'gradle-testng-mockito-bootstrap', parallel: 'tests') {
+        suiteXmlBuilder().suite(name: 'avro-hadoop-starter', parallel: 'tests') {
             test (name : 'all-tests') {
                 packages {
                     'package' (name: 'com.miguno.*')
