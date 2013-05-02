@@ -127,6 +127,10 @@ each line.
     <JSON representation of Avro record #3>\t
     ...
 
+Here's the basic data flow from your input data in binary Avro format to our streaming mapper:
+
+    input.avro (binary)  ---AvroAsTextInputFormat---> deserialized data (JSON) ---> Mapper
+
 
 ## Examples
 
@@ -206,6 +210,6 @@ from ``cat``.  An illustration might be worth a thousand words:
     "{\"username\": \"VoidRay\", \"tweet\": \"Prismatic core online!\", \"timestamp\": 1366160000}\t"
 
 
-## Further Reading
+# Related Documentation
 
 * [Reading and Writing Avro Files From the Command Line](http://www.michael-noll.com/blog/2013/03/17/reading-and-writing-avro-files-from-the-command-line/)
