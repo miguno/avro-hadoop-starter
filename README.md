@@ -101,13 +101,14 @@ See [Experimenting with MapReduce 2.0](http://blog.cloudera.com/blog/2012/07/exp
 information.
 
 
-## Further Reading
-
-The Apache Avro documentation provides detailed information on how you should use the Avro Java API to implement
-MapReduce jobs that read and/or write data in Avro format:
+## Further reading for Java
 
 * [Package Documentation for org.apache.avro.mapred](http://avro.apache.org/docs/1.7.4/api/java/index.html?org/apache/avro/mapred/package-summary.html)
-  -- Run Hadoop MapReduce jobs over Avro data, with map and reduce functions written in Java.
+  -- Run Hadoop MapReduce jobs over Avro data, with map and reduce functions written in Java.  This document provides
+  detailed information on how you should use the Avro Java API to implement MapReduce jobs that read and/or write data
+  in Avro format.
+* [Java MapReduce and Avro](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/latest/CDH4-Installation-Guide/cdh4ig_topic_26_5.html)
+  -- Cloudera CDH4 documentation
 
 
 <a name="Hadoop Streaming"></a>
@@ -234,7 +235,7 @@ References:
 * [AVRO-1067: Include OutputFormat for a specified Avro schema that works with Streaming](https://issues.apache.org/jira/browse/AVRO-1067)
 
 
-#### Enabling compression (Snappy or Deflate)
+#### Enabling compression of Avro output data (Snappy or Deflate)
 
 If you want to enable compression for the Avro output data, you must add the following parameters to the streaming job:
 
@@ -250,6 +251,13 @@ of the output data.  For instance, if ``mapred.output.compression.codec`` is set
 ``com.hadoop.compression.lzo.LzopCodec`` then the job's output files would be compressed with LZO (e.g. you would
 see ``part-00000.lzo`` output files instead of uncompressed ``part-00000`` files).
 
-# Related Documentation
+
+## Further reading for Hadoop Streaming
+
+* [Streaming and Avro](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/latest/CDH4-Installation-Guide/cdh4ig_topic_26_6.html)
+  -- Cloudera CDH4 documentation
+
+
+# Related documentation
 
 * [Reading and Writing Avro Files From the Command Line](http://www.michael-noll.com/blog/2013/03/17/reading-and-writing-avro-files-from-the-command-line/)
