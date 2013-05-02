@@ -17,9 +17,9 @@ Table of Contents
     * <a href="#Streaming data">How Streaming sees data when reading via AvroAsTextInputFormat</a>
     * <a href="#Examples-Streaming">Examples</a>
     * <a href="#Further readings on Hadoop Streaming">Further readings on Hadoop Streaming</a>
-* <a href="#Related documentation">Related documentation</a>
 * <a href="#Hive">Hive</a>
 * <a href="#Pig">Pig</a>
+* <a href="#Related documentation">Related documentation</a>
 
 ---
 
