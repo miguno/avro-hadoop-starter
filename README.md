@@ -189,6 +189,11 @@ Once the job completes you can inspect the output data as follows:
     {"username": "DarkTemplar", "tweet": "From the shadows I come!", "timestamp": 1366154681}
     {"username": "VoidRay", "tweet": "Prismatic core online!", "timestamp": 1366160000}
 
+Please be aware that the output data just happens to be JSON.  This is because we opted not to modify any of the input
+data in our MapReduce job.  And since the input data to our MapReduce job is deserialized by Avro into JSON, the output
+turns out to be JSON, too.  With a different MapReduce job you could of course write the output data in TSV or CSV
+format, for instance.
+
 
 ### Reading Avro, writing Avro
 
