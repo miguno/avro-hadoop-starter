@@ -71,6 +71,16 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
 
         FileInputFormat.setInputPaths(conf, inputPath);
         FileOutputFormat.setOutputPath(conf, outputPath);
+
+        // Disable JDK 7's new bytecode verifier which requires the need for stack frames.  This is required when
+        // running this code via JDK 7.  Otherwise our map/reduce tasks will fail because of
+        // "Error: Expecting a stackmap frame at branch".
+        //
+        // See also:
+        // http://chrononsystems.com/blog/java-7-design-flaw-leads-to-huge-backward-step-for-the-jvm
+        // http://stackoverflow.com/questions/8958267/java-lang-verifyerror-expecting-a-stackmap-frame
+        //
+        conf.set("mapred.child.java.opts", "-XX:-UseSplitVerifier");
     }
 
     private void upload(String resourceFile, Path dstPath) throws IOException {

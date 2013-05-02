@@ -111,6 +111,18 @@ task testng(type: Test) {
     ext.workingDirectory = 'build/'
 }
 
+test {
+    // Disable JDK 7's new bytecode verifier which requires the need for stack frames.  This is required when running
+    // this code via JDK 7.  Otherwise our unit tests will fail because of
+    // "java.lang.VerifyError: Expecting a stackmap frame at branch target [...]"
+    //
+    // See also:
+    // http://chrononsystems.com/blog/java-7-design-flaw-leads-to-huge-backward-step-for-the-jvm
+    // http://stackoverflow.com/questions/8958267/java-lang-verifyerror-expecting-a-stackmap-frame
+    //
+    jvmArgs "-XX:-UseSplitVerifier"
+}
+
 // see https://github.com/Mapvine/gradle-cobertura-plugin
 cobertura {
     format = 'xml'
