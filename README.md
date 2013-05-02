@@ -164,19 +164,21 @@ The following command reads Avro data from the relative HDFS directory ``streami
 to ``/user/<your-unix-username>/streaming/input/``).  It writes the
 deserialized version of each data record (see section _How Streaming sees data when reading via AvroAsTextInputFormat_
 above) as is to the output HDFS directory ``streaming/output/``.  For this simple demonstration we are using
-the Unix tool ``cat`` as a naive map step implementation.  We do not need to run a reduce phase here, which is why
-we disable the reduce step via the option ``-D mapred.reduce.tasks=0`` (see
+the ``IdentityMapper`` as a naive map step implementation -- it outputs its input data unmodified (equivalently we
+coud use the Unix tool ``cat``, here) .  We do not need to run a reduce phase here, which is why we disable the reduce
+step via the option ``-D mapred.reduce.tasks=0`` (see
 [Specifying Map-Only Jobs](http://hadoop.apache.org/docs/r1.1.2/streaming.html#Specifying+Map-Only+Jobs) in the
 Hadoop Streaming documenation).
 
     # run the streaming job
     $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar \
+        -D mapred.job.name="avro-streaming" \
         -D mapred.reduce.tasks=0 \
         -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
         -libjars avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
         -input  streaming/input/ \
         -output streaming/output/ \
-        -mapper /bin/cat \
+        -mapper org.apache.hadoop.mapred.lib.IdentityMapper \
         -inputformat org.apache.avro.mapred.AvroAsTextInputFormat
 
 Once the job completes you can inspect the output data as follows:
@@ -188,7 +190,9 @@ Once the job completes you can inspect the output data as follows:
     {"username": "VoidRay", "tweet": "Prismatic core online!", "timestamp": 1366160000}
 
 
-# Reading Avro, writing Avro
+### Reading Avro, writing Avro
+
+#### AvroTextOutputFormat (implies "bytes" schema)
 
 To write the output in Avro format instead of plain-text, use the same general options as in the previous example but
 also add:
@@ -198,17 +202,42 @@ also add:
 [AvroTextOutputFormat](http://avro.apache.org/docs/1.7.4/api/java/index.html?org/apache/avro/mapred/AvroTextOutputFormat.html)
 is the equivalent of TextOutputFormat.  It writes Avro data files with a "bytes" schema.
 
-Note that using ``cat`` as a naive mapper as shown in the previous example will not result in the output file being
-identical to the input file.  This is because ``AvroTextOutputFormat`` will escape (quote) the input data it receives
-from ``cat``.  An illustration might be worth a thousand words:
+Note that using ``IdentityMapper`` as a naive mapper as shown in the previous example will not result in the output file
+being identical to the input file.  This is because ``AvroTextOutputFormat`` will escape (quote) the input data it
+receives from ``cat``.  An illustration might be worth a thousand words:
 
-    # When using /bin/cat as mapper as in the previous example
+    # After having used IdentityMapper as in the previous example
     $ hadoop fs -copyToLocal streaming/output/part-00000.avro .
+
     $ java -jar avro-tools-1.7.4.jar tojson part-00000.avro  | head -4
     "{\"username\": \"miguno\", \"tweet\": \"Rock: Nerf paper, scissors is fine.\", \"timestamp\": 1366150681}\t"
     "{\"username\": \"BlizzardCS\", \"tweet\": \"Works as intended.  Terran is IMBA.\", \"timestamp\": 1366154481}\t"
     "{\"username\": \"DarkTemplar\", \"tweet\": \"From the shadows I come!\", \"timestamp\": 1366154681}\t"
     "{\"username\": \"VoidRay\", \"tweet\": \"Prismatic core online!\", \"timestamp\": 1366160000}\t"
+
+
+#### Custom Avro output schema
+
+This looks not to be supported by stock Avro at the moment.  A related JIRA ticket
+[AVRO-1067](https://issues.apache.org/jira/browse/AVRO-1067), created in April 2012, is still unresolved as of May 2013.
+
+For a workaround take a look at the section _Avro output for Hadoop Streaming_ at
+[avro-utils](https://github.com/tomslabs/avro-utils),! a third-party library for Avro.
+
+References:
+
+* [AVRO-1067: Include OutputFormat for a specified Avro schema that works with Streaming](https://issues.apache.org/jira/browse/AVRO-1067)
+
+
+#### Enabling compression (Snappy or Deflate)
+
+If you want to enable compression for the Avro output data, you must also add:
+
+    # for Snappy
+    -D mapred.output.compress=true -D avro.output.codec=snappy
+
+    # for Deflate
+    -D mapred.output.compress=true -D avro.output.codec=deflate
 
 
 # Related Documentation
