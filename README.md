@@ -142,7 +142,7 @@ _Important: The examples below assume you have access to a running Hadoop cluste
 
 ### Prerequisites
 
-The example commands below use the Hadoop Streaming jar (for MRv1) shipped with Cloudera CDH4:
+The example commands below use the Hadoop Streaming jar _for MRv1_ shipped with Cloudera CDH4:
 
 * [hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.2.0/hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar)
   (as of April 2013)
