@@ -48,7 +48,7 @@ for executing those.
 ### TweetCount
 
 The class ``com.miguno.avro.hadoop.TweetCount`` implements a MapReduce job that counts the number of tweets created by
-Twitter users.  You can run this class from the command line.
+Twitter users.
 
     TweetCount: Usage: TweetCount <input path> <output path>
 
