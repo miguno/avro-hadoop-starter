@@ -140,6 +140,8 @@ The example commands below use the Hadoop Streaming jar (for MRv1) shipped with 
 CDH4 just replace the jar file with the one included in your Hadoop installation.  The Avro jar files are straight
 from the [Avro project](https://avro.apache.org/releases.html).
 
+### Preparing the input data
+
 The example input data we are using is ``twitter.avro`` from ``src/test/resources/avro/``.  Here is an excerpt of
 ``twitter.avro``, shown in JSON representation:
 
@@ -148,9 +150,8 @@ The example input data we are using is ``twitter.avro`` from ``src/test/resource
     {"username":"DarkTemplar","tweet":"From the shadows I come!","timestamp": 1366154681 }
     {"username":"VoidRay","tweet":"Prismatic core online!","timestamp": 1366160000 }
 
-### Preparing the input data
 
-First we must make the input data available in HDFS.
+Upload ``twitter.avro`` to HDFS to make the input data available to our streaming jobs.
 
     # upload the input data
     $ hadoop fs -mkdir streaming/input
