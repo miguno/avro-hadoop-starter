@@ -8,7 +8,7 @@ Example MapReduce jobs that read and/or write data in Avro format.
 Table of Contents
 
 * <a href="#Java">Java</a>
-* <a href="#Hadoop Streaming>Hadoop Streaming</a>
+* <a href="#Hadoop Streaming">Hadoop Streaming</a>
 
 ---
 
