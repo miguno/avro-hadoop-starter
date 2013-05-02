@@ -74,7 +74,7 @@ public class TweetCountTest extends ClusterMapReduceTestCase {
 
         // Disable JDK 7's new bytecode verifier which requires the need for stack frames.  This is required when
         // running this code via JDK 7.  Otherwise our map/reduce tasks will fail because of
-        // "Error: Expecting a stackmap frame at branch".
+        // "Error: Expecting a stackmap frame at branch target [...]"
         //
         // See also:
         // http://chrononsystems.com/blog/java-7-design-flaw-leads-to-huge-backward-step-for-the-jvm
