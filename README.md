@@ -52,6 +52,7 @@ Twitter users.  You can run this class from the command line.
 
 The class ``com.miguno.avro.hadoop.TweetCountTest`` is very similar to ``TweetCount``.  It uses a small test input Avro
 file ``src/test/resources/avro/twitter.avro`` and runs a unit test with the same MapReduce job as ``TweetCount`` on it.
+The unit test includes comparing the actual MapReduce output (in Snappy-compressed Avro format) with expected output.
 ``TweetCountTest`` extends ``org.apache.hadoop.mapred.ClusterMapReduceTestCase`` (Hadoop MRv1), which means that the
 corresponding MapReduce job is launched in-memory via ``MiniMRCluster``.
 
