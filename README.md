@@ -162,7 +162,7 @@ The Avro jar files are straight from the [Avro project](https://avro.apache.org/
 The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).  Here is an excerpt of
 ``twitter.avro``, shown in JSON representation:
 
-    $ java -jar avro-tools-1.7.4.jar tojson twitter.avro | head -4
+    $ java -jar avro-tools-1.7.4.jar tojson src/test/resources/avro/twitter.avro | head -4
     {"username":"miguno","tweet":"Rock: Nerf paper, scissors is fine.","timestamp": 1366150681 }
     {"username":"BlizzardCS","tweet":"Works as intended.  Terran is IMBA.","timestamp": 1366154481 }
     {"username":"DarkTemplar","tweet":"From the shadows I come!","timestamp": 1366154681 }
