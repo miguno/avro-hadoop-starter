@@ -8,6 +8,8 @@ Example MapReduce jobs that read and/or write data in Avro format.
 Table of Contents
 
 * <a href="#Example data">Example data</a>
+    * <a href="#Avro schema">Avro schema</a>
+    * <a href="#Avro data files">Avro data files</a>
 * <a href="#Java">Java</a>
     * <a href="#Usage-Java">Usage</a>
     * <a href="#Examples-Java">Examples</a>
@@ -30,6 +32,9 @@ Table of Contents
 # Example data
 
 We are using a small Twitter-like data set as input for our example MapReduce jobs.
+
+
+<a name="Avro schema"></a>
 
 ## Avro schema
 
@@ -59,6 +64,8 @@ We are using a small Twitter-like data set as input for our example MapReduce jo
 
 The latest version of the schema is always available at [twitter.avsc](src/main/resources/avro/twitter.avsc).
 
+
+<a name="Avro data files"></a>
 
 ## Avro data files
 
