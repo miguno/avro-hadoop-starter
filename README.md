@@ -236,7 +236,7 @@ References:
 
 #### Enabling compression (Snappy or Deflate)
 
-If you want to enable compression for the Avro output data, you must also add:
+If you want to enable compression for the Avro output data, you must add the following parameters to the streaming job:
 
     # for Snappy
     -D mapred.output.compress=true -D avro.output.codec=snappy
