@@ -18,7 +18,11 @@ import java.io.IOException;
 /**
  * This MapReduce job counts the number of tweets created by Twitter users.
  * <p/>
- * It uses AvroMapper and AvroReducer to implement the Map and Reduce steps, respectively.
+ * It uses AvroMapper and AvroReducer to implement the Map and Reduce steps, respectively.  The output will be stored in
+ * Snappy-compressed Avro format.
+ * <p/>
+ * When you run this class you must supplied it with two parameters: first, the path to the input data; second, the path
+ * where to store the output data.
  */
 public class TweetCount extends Configured implements Tool {
 
@@ -60,8 +64,8 @@ public class TweetCount extends Configured implements Tool {
         JobConf conf = new JobConf(TweetCount.class);
         conf.setJobName("tweetcount");
 
-        // Note that AvroJob#setInputSchema() and AvroJob#setOutputSchema() set relevant config options such as
-        // input/output format, map output classes, and output key class.
+        // AvroJob#setInputSchema() and AvroJob#setOutputSchema() set relevant config options such as input/output
+        // format, map output classes, and output key class.
         AvroJob.setInputSchema(conf, Tweet.getClassSchema());
         AvroJob.setOutputSchema(conf, Pair.getPairSchema(Schema.create(Type.STRING), Schema.create(Type.INT)));
 
