@@ -17,6 +17,32 @@ Table of Contents
 
 # Java
 
+## Usage
+
+To prepare your Java IDE:
+
+    # IntelliJ IDEA
+    $ gradle cleanIdea idea   # then File > Open... > avro-hadoop-starter.ipr
+
+    # Eclipse
+    $ gradle cleanEclipse eclipse
+
+
+To build the Java code and to compile the Avro-based Java classes from the schemas (``*.avsc``) in
+``src/main/resources/avro/``:
+
+    $ gradle clean build
+
+The generated Avro-based Java classes are written under the directory tree ``generated-sources/``.
+
+To run the unit tests (notably ``TweetCountTest``, see section _Examples_ below):
+
+    $ gradle test
+
+Note: ``gradle test`` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run ``gradle testng``
+for executing those.
+
+
 ## Examples
 
 The class ``com.miguno.avro.hadoop.TweetCount`` implements a MapReduce job that counts the number of tweets created by
