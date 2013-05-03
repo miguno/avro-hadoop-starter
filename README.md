@@ -7,9 +7,11 @@ Example MapReduce jobs that read and/or write data in Avro format.
 
 Table of Contents
 
+* <a href="#Requirements">Requirements</a>
 * <a href="#Example data">Example data</a>
     * <a href="#Avro schema">Avro schema</a>
     * <a href="#Avro data files">Avro data files</a>
+    * <a href="#Preparing the input data">Preparing the input data</a>
 * <a href="#Java">Java</a>
     * <a href="#Build and run">Build and run</a>
     * <a href="#Examples-Java">Examples</a>
@@ -25,6 +27,22 @@ Table of Contents
 * <a href="#Related documentation">Related documentation</a>
 
 ---
+
+
+<a name="Requirements">Requirements</a>
+
+# Requirements
+
+The examples require the following software versions:
+
+* JDK 7
+* Hadoop 2.x with MRv1 (not MRv2)
+    * Tested with Cloudera CDH 4.2
+* Pig 0.10
+    * Tested with Pig 0.10.0-cdh4.2.0
+* Hive 0.10
+    * Tested with Hive 0.10.0-cdh4.2.0
+* Avro 1.7.4
 
 
 <a name="Example data"></a>
@@ -87,6 +105,16 @@ Here is a snippet of the example data:
 {"username":"DarkTemplar","tweet":"From the shadows I come!","timestamp": 1366154681 }
 {"username":"VoidRay","tweet":"Prismatic core online!","timestamp": 1366160000 }
 ```
+
+
+## Preparing the input data
+
+The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).
+Upload ``twitter.avro`` to HDFS to make the input data available to our MapReduce jobs.
+
+    # upload the input data
+    $ hadoop fs -mkdir examples/input
+    $ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro examples/input
 
 
 <a name="Java"></a>
@@ -230,20 +258,10 @@ The Avro jar files are straight from the [Avro project](https://avro.apache.org/
 * [avro-tools-1.7.4.jar](http://www.eu.apache.org/dist/avro/avro-1.7.4/java/avro-tools-1.7.4.jar)
 
 
-### Preparing the input data
-
-The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).
-Upload ``twitter.avro`` to HDFS to make the input data available to our streaming jobs.
-
-    # upload the input data
-    $ hadoop fs -mkdir streaming/input
-    $ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro streaming/input
-
-
 ### Reading Avro, writing plain-text
 
-The following command reads Avro data from the relative HDFS directory ``streaming/input/`` (which normally resolves
-to ``/user/<your-unix-username>/streaming/input/``).  It writes the
+The following command reads Avro data from the relative HDFS directory ``examples/input/`` (which normally resolves
+to ``/user/<your-unix-username>/examples/input/``).  It writes the
 deserialized version of each data record (see section _How Streaming sees data when reading via AvroAsTextInputFormat_
 above) as is to the output HDFS directory ``streaming/output/``.  For this simple demonstration we are using
 the ``IdentityMapper`` as a naive map step implementation -- it outputs its input data unmodified (equivalently we
@@ -258,7 +276,7 @@ Hadoop Streaming documenation).
         -D mapred.reduce.tasks=0 \
         -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
         -libjars avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
-        -input  streaming/input/ \
+        -input  examples/input/ \
         -output streaming/output/ \
         -mapper org.apache.hadoop.mapred.lib.IdentityMapper \
         -inputformat org.apache.avro.mapred.AvroAsTextInputFormat
