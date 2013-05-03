@@ -39,9 +39,9 @@ The examples require the following software versions:
 * Hadoop 2.x with MRv1 (not MRv2)
     * Tested with Cloudera CDH 4.2
 * Pig 0.10
-    * Tested with Pig 0.10.0-cdh4.2.0
+    * Tested with Pig 0.10.0-cdh4.2.1
 * Hive 0.10
-    * Tested with Hive 0.10.0-cdh4.2.0
+    * Tested with Hive 0.10.0-cdh4.2.1
 * Avro 1.7.4
 
 
@@ -245,8 +245,8 @@ Here's the basic data flow from your input data in binary Avro format to our str
 
 The example commands below use the Hadoop Streaming jar _for MRv1_ shipped with Cloudera CDH4:
 
-* [hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.2.0/hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar)
-  (as of April 2013)
+* [hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.2.1/hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar)
+  (as of May 2013)
 
 If you are not using Cloudera CDH4 or are using a new version of CDH4 just replace the jar file with the one included
 in your Hadoop installation.
@@ -271,7 +271,7 @@ step via the option ``-D mapred.reduce.tasks=0`` (see
 Hadoop Streaming documenation).
 
     # run the streaming job
-    $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.0.jar \
+    $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
         -D mapred.job.name="avro-streaming" \
         -D mapred.reduce.tasks=0 \
         -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
