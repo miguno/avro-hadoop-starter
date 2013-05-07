@@ -364,6 +364,20 @@ in the CDH4 documentation.
 
 TODO
 
+## Enabling compression of Avro output data (Snappy or Deflate)
+
+    # for Snappy
+    SET hive.exec.compress.output=true;
+    SET avro.output.codec=snappy;
+
+    # for Deflate
+    SET hive.exec.compress.output=true;
+    SET avro.output.codec=deflate;
+
+To disable compression again in the same shell/script:
+
+    SET hive.exec.compress.output=false;
+
 
 <a name="Pig"></a>
 
