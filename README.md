@@ -364,6 +364,29 @@ in the CDH4 documentation.
 
 TODO
 
+## Defining a Hive table backed by Avro data
+
+The following ``CREATE TABLE`` statement creates an external Hive table named ``tweets`` for storing Twitter messages
+in a very basic data structure that consists of username, content of the message and a timestamp.
+
+    CREATE EXTERNAL TABLE tweets
+        ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
+        STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
+        OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
+        LOCATION '/twitter/firehose/'
+        TBLPROPERTIES (
+            'avro.schema.literal'='{
+                "namespace": "com.miguno.avro",
+                "name": "Tweet",
+                "type": "record",
+                "fields": [
+                    { "name":"username",  "type":"string"},
+                    { "name":"tweet",     "type":"string"},
+                    { "name":"timestamp", "type":"long"},
+            }'
+        );
+
+
 ## Enabling compression of Avro output data (Snappy or Deflate)
 
     # for Snappy
