@@ -404,6 +404,10 @@ Important: The examples below assume you have access to a running Hadoop cluster
 
 ## Examples
 
+In this section we demonstrate how to create a Hive table backed by Avro data, followed by running a few simple Hive
+queries against that data.
+
+
 ### Defining a Hive table backed by Avro data
 
 #### Using avro.schema.url to point to remote a Avro schema file
