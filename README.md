@@ -348,7 +348,7 @@ $ java -jar avro-tools-1.7.4.jar tojson part-00000.avro  | head -4
 "{\"username\": \"BlizzardCS\", \"tweet\": \"Works as intended.  Terran is IMBA.\", \"timestamp\": 1366154481}\t"
 "{\"username\": \"DarkTemplar\", \"tweet\": \"From the shadows I come!\", \"timestamp\": 1366154681}\t"
 "{\"username\": \"VoidRay\", \"tweet\": \"Prismatic core online!\", \"timestamp\": 1366160000}\t"
-```bash
+```
 
 
 #### Custom Avro output schema
