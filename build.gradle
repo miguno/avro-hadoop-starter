@@ -58,8 +58,8 @@ dependencies {
     compile group: 'org.xerial.snappy', name: 'snappy-java', version: '1.0.5-M4'
 
     testCompile group: 'org.apache.hadoop', name: 'hadoop-test', version: '2.0.0-mr1-cdh4.2.0'
-    testCompile group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '2.0.0-cdh4.2.0'
     testCompile group: 'org.apache.hadoop', name: 'hadoop-minicluster', version: '2.0.0-mr1-cdh4.2.0'
+    testCompile group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '2.0.0-cdh4.2.0'
     // Workaround for a known bug in commons-daemon 1.0.3, which is a transitive dependency of hadoop-hdfs
     testCompile("commons-daemon:commons-daemon:1.0.5") {
         // Force version 1.0.5 because of a known bug in the 1.0.3 pom file that results in the following build error:
