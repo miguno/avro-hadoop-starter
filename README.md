@@ -418,14 +418,14 @@ CREATE EXTERNAL TABLE tweets
     STORED AS
     INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
     OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
-    LOCATION '/twitter/firehose/'
+    LOCATION '/user/YOURUSER/examples/input/'
     TBLPROPERTIES (
-        'avro.schema.url'='hdfs:///user/YOURUSER/examples/schema/twitter.avsc');
+        'avro.schema.url'='hdfs:///user/YOURUSER/examples/schema/twitter.avsc'
     );
 ```
 
 
-_Note: You must replace ``YOURUSER`` in the ``avro.schema.url`` value above with your actual username._
+_Note: You must replace ``YOURUSER`` with your actual username._
 _See section [Preparing the input data](#Preparing the input data) above._
 
 The serde parameter ``avro.schema.url`` can use URI schemes such as ``hdfs://``, ``http://`` and ``file://``.  It is
@@ -446,7 +446,7 @@ If you need to point to a particular HDFS namespace you can include the hostname
 ```sql
 CREATE EXTERNAL TABLE [...]
     TBLPROPERTIES (
-        'avro.schema.url'='hdfs://namenode01:9000/path/to/twitter.avsc');
+        'avro.schema.url'='hdfs://namenode01:9000/path/to/twitter.avsc'
     );
 ```
 
@@ -463,7 +463,7 @@ CREATE EXTERNAL TABLE tweets
     STORED AS
     INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
     OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
-    LOCATION '/twitter/firehose/'
+    LOCATION '/user/YOURUSER/examples/input/'
     TBLPROPERTIES (
         'avro.schema.literal'='{
             "type": "record",
@@ -478,6 +478,8 @@ CREATE EXTERNAL TABLE tweets
     );
 ```
 
+_Note: You must replace ``YOURUSER`` with your actual username._
+_See section [Preparing the input data](#Preparing the input data) above._
 
 Hive can also use variable substitution to embed the required Avro schema at run-time of a Hive script:
 
