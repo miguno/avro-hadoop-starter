@@ -507,7 +507,62 @@ If for a given Hive table you want to change how the Avro schema is specified yo
 > the other, set the to-be-ignored value to none and the AvroSerde will treat it as if it were not set.
 
 
-## Enabling compression of Avro output data
+### Running a Hive query
+
+After you have created the Hive table ``tweets`` with one of the ``CREATE TABLE`` statements above (no matter which),
+you can start analyzing the example data with Hive.  We will demonstrate this via the interactive Hive shell, but you
+can also use a Hive script, of course.
+
+First, start the Hive shell:
+
+```bash
+$ hive
+hive>
+```
+
+Let's inspect how Hive interprets the Avro data:
+
+    hive> DESCRIBE tweets;
+    OK
+    username        string  from deserializer
+    tweet   string  from deserializer
+    timestamp       bigint  from deserializer
+    Time taken: 1.786 seconds
+
+You can also use ``DESCRIBE EXTENDED`` to see even more details.
+
+Now we can perform interactive analysis of our example data:
+
+    hive> SELECT * FROM tweets LIMIT 5;
+    OK
+    miguno  Rock: Nerf paper, scissors is fine.     1366150681
+    BlizzardCS      Works as intended.  Terran is IMBA.     1366154481
+    DarkTemplar     From the shadows I come!        1366154681
+    VoidRay Prismatic core online!  1366160000
+    VoidRay Fire at will, commander.        1366160010
+    Time taken: 0.126 seconds
+
+The following query will launch a MapReduce job to compute the result:
+
+    hive> SELECT DISTINCT(username) FROM tweets;
+    Total MapReduce jobs = 1
+    Launching Job 1 out of 1
+    [...snip...]
+    MapReduce Total cumulative CPU time: 4 seconds 290 msec
+    Ended Job = job_201305070634_0187
+    MapReduce Jobs Launched:
+    Job 0: Map: 1  Reduce: 1   Cumulative CPU: 4.29 sec   HDFS Read: 1887 HDFS Write: 47 SUCCESS
+    Total MapReduce CPU Time Spent: 4 seconds 290 msec
+    OK
+    BlizzardCS
+    DarkTemplar
+    Immortal
+    VoidRay
+    miguno
+    Time taken: 16.782 seconds
+
+
+### Enabling compression of Avro output data
 
 To enable compression add the following statements to your Hive script or enter them into the Hive shell:
 
