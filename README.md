@@ -23,6 +23,8 @@ Table of Contents
     * <a href="#Examples-Streaming">Examples</a>
     * <a href="#Further readings on Hadoop Streaming">Further readings on Hadoop Streaming</a>
 * <a href="#Hive">Hive</a>
+    * <a href="#Examples-Hive">Examples</a>
+    * <a href="#Further readings on Java">Further readings on Hive</a>
 * <a href="#Pig">Pig</a>
 * <a href="#Related documentation">Related documentation</a>
 
@@ -107,6 +109,8 @@ Here is a snippet of the example data:
 ```
 
 
+<a name="Preparing the input data"></a>
+
 ## Preparing the input data
 
 The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).
@@ -115,6 +119,10 @@ Upload ``twitter.avro`` to HDFS to make the input data available to our MapReduc
     # upload the input data
     $ hadoop fs -mkdir examples/input
     $ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro examples/input
+
+    # upload the Avro schema (we will use this for one of the Hive examples)
+    $ hadoop fs -mkdir examples/schema
+    $ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
 
 
 <a name="Java"></a>
@@ -364,27 +372,96 @@ in the CDH4 documentation.
 
 TODO
 
-## Defining a Hive table backed by Avro data
+
+<a name="Examples-Hive"></a>
+
+## Examples
+
+### Defining a Hive table backed by Avro data
+
+#### Using avro.schema.url to point to remote a Avro schema file
 
 The following ``CREATE TABLE`` statement creates an external Hive table named ``tweets`` for storing Twitter messages
 in a very basic data structure that consists of username, content of the message and a timestamp.
 
     CREATE EXTERNAL TABLE tweets
+        COMMENT "A table backed by Avro data with the Avro schema stored in HDFS"
         ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
-        STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
+        STORED AS
+        INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
+        OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
+        LOCATION '/twitter/firehose/'
+        TBLPROPERTIES (
+            'avro.schema.url'='hdfs:///user/YOURUSER/examples/schema/twitter.avsc');
+        );
+
+
+_Note: You must replace ``YOURUSER`` in the ``avro.schema.url`` value above with your actual username._
+_See section [Preparing the input data](#Preparing the input data) above._
+
+The serde parameter ``avro.schema.url`` can use URI schemes such as ``hdfs://``, ``http://`` and ``file://``.  It is
+[recommended to use HDFS locations](https://cwiki.apache.org/Hive/avroserde-working-with-avro-from-hive.html) though:
+
+> [If the avro.schema.url points] to a location on HDFS [...], the AvroSerde will then read the file from HDFS, which
+> should provide resiliency against many reads at once [which can be a problem for HTTP locations].  Note that the serde
+> will read this file from every mapper, so it's a good idea to turn the replication of the schema file to a high value
+> to provide good locality for the readers.  The schema file itself should be relatively small, so this does not add a
+> significant amount of overhead to the process.
+
+That said, when hosting the schemas on a high-performance web server such as [nginx](http://nginx.org/) that is very
+efficient at serving static files then using HTTP locations for Avro schemas should not be a problem either.
+
+If you need to point to a particular HDFS namespace you can include the hostname and port of the NameNode in
+``avro.schema.url``:
+
+    hdfs://namenode01:9000/path/to/twitter.avsc
+
+
+#### Using avro.schema.literal to embed an Avro schema
+
+An alternative to setting ``avro.schema.url`` and using an external Avro schema is to embed the schema directly within
+the ``CREATE TABLE`` statement:
+
+    CREATE EXTERNAL TABLE tweets
+        COMMENT "A table backed by Avro data with the Avro schema embedded in the CREATE TABLE statement"
+        ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
+        STORED AS
+        INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
         OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
         LOCATION '/twitter/firehose/'
         TBLPROPERTIES (
             'avro.schema.literal'='{
-                "namespace": "com.miguno.avro",
-                "name": "Tweet",
                 "type": "record",
+                "name": "Tweet",
+                "namespace": "com.miguno.avro",
                 "fields": [
                     { "name":"username",  "type":"string"},
                     { "name":"tweet",     "type":"string"},
-                    { "name":"timestamp", "type":"long"},
+                    { "name":"timestamp", "type":"long"}
+                ]
             }'
         );
+
+Hive can also use variable substitution to embed the required Avro schema at run-time of a Hive script:
+
+    CREATE EXTERNAL TABLE tweets [...]
+        TBLPROPERTIES ('avro.schema.literal'='${hiveconf:schema}');
+
+To execute the Hive script you would then run:
+
+    # SCHEMA must be a properly escaped version of the Avro schema; i.e. carriage returns converted to \n, tabs to \t,
+    # quotes escaped, and so on.
+    $ export SCHEMA="..."
+    $ hive -hiveconf schema="${SCHEMA}" -f hive_script.hql
+
+
+#### Switching from avro.schema.url to avro.schema.literal or vice versa
+
+If for a given Hive table you want to change how the Avro schema is specified you need to use a
+[workaround](https://cwiki.apache.org/Hive/avroserde-working-with-avro-from-hive.html):
+
+> Hive does not provide an easy way to unset or remove a property.  If you wish to switch from using url or schema to
+> the other, set the to-be-ignored value to none and the AvroSerde will treat it as if it were not set.
 
 
 ## Enabling compression of Avro output data (Snappy or Deflate)
@@ -400,6 +477,14 @@ in a very basic data structure that consists of username, content of the message
 To disable compression again in the same shell/script:
 
     SET hive.exec.compress.output=false;
+
+
+<a name="Further readings on Hive"></a>
+
+## Further readings on Hive
+
+* [AvroSerDe - working with Avro from Hive](https://cwiki.apache.org/Hive/avroserde-working-with-avro-from-hive.html)
+  -- Hive documentation
 
 
 <a name="Pig"></a>
