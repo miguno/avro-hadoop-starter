@@ -38,14 +38,14 @@ Table of Contents
 
 The examples require the following software versions:
 
-* JDK 7
-* Hadoop 2.x with MRv1 (not MRv2)
+* Java JDK 7
+* [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2)
     * Tested with Cloudera CDH 4.2
-* Pig 0.10
+* [Pig](http://pig.apache.org/) 0.10
     * Tested with Pig 0.10.0-cdh4.2.1
-* Hive 0.10
+* [Hive](http://hive.apache.org/) 0.10
     * Tested with Hive 0.10.0-cdh4.2.1
-* Avro 1.7.4
+* [Avro](http://avro.apache.org/) 1.7.4
 
 
 <a name="Example data"></a>
