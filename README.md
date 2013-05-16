@@ -23,6 +23,7 @@ Table of Contents
     * <a href="#Examples-Streaming">Examples</a>
     * <a href="#Further readings on Hadoop Streaming">Further readings on Hadoop Streaming</a>
 * <a href="#Hive">Hive</a>
+    * <a href="#Preliminaries-Hive">Preliminaries</a>
     * <a href="#Examples-Hive">Examples</a>
     * <a href="#Further readings on Java">Further readings on Hive</a>
 * <a href="#Pig">Pig</a>
@@ -392,7 +393,11 @@ in the CDH4 documentation.
 
 # Hive
 
-TODO
+<a name="Preliminaries-Hive"></a>
+
+## Preliminaries
+
+Important: The examples below assume you have access to a running Hadoop cluster.
 
 
 <a name="Examples-Hive"></a>
