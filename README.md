@@ -500,15 +500,15 @@ If for a given Hive table you want to change how the Avro schema is specified yo
 > the other, set the to-be-ignored value to none and the AvroSerde will treat it as if it were not set.
 
 
-## Enabling compression of Avro output data (Snappy or Deflate)
+## Enabling compression of Avro output data
 
 To enable compression add the following statements to your Hive script or enter them into the Hive shell:
 
-    # for Snappy
+    # for compression with Snappy
     SET hive.exec.compress.output=true;
     SET avro.output.codec=snappy;
 
-    # for Deflate
+    # for compression with Deflate
     SET hive.exec.compress.output=true;
     SET avro.output.codec=deflate;
 
