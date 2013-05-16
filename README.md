@@ -502,6 +502,8 @@ If for a given Hive table you want to change how the Avro schema is specified yo
 
 ## Enabling compression of Avro output data (Snappy or Deflate)
 
+To enable compression add the following statements to your Hive script or enter them into the Hive shell:
+
     # for Snappy
     SET hive.exec.compress.output=true;
     SET avro.output.codec=snappy;
@@ -510,7 +512,7 @@ If for a given Hive table you want to change how the Avro schema is specified yo
     SET hive.exec.compress.output=true;
     SET avro.output.codec=deflate;
 
-To disable compression again in the same shell/script:
+To disable compression again in the same Hive script/Hive shell:
 
     SET hive.exec.compress.output=false;
 
