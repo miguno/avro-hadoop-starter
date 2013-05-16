@@ -387,7 +387,7 @@ TODO
 The following ``CREATE TABLE`` statement creates an external Hive table named ``tweets`` for storing Twitter messages
 in a very basic data structure that consists of username, content of the message and a timestamp.
 
-```hive
+```sql
 CREATE EXTERNAL TABLE tweets
     COMMENT "A table backed by Avro data with the Avro schema stored in HDFS"
     ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
@@ -419,10 +419,12 @@ efficient at serving static files then using HTTP locations for Avro schemas sho
 If you need to point to a particular HDFS namespace you can include the hostname and port of the NameNode in
 ``avro.schema.url``:
 
-    CREATE EXTERNAL TABLE [...]
-        TBLPROPERTIES (
-            'avro.schema.url'='hdfs://namenode01:9000/path/to/twitter.avsc');
-        );
+```sql
+CREATE EXTERNAL TABLE [...]
+    TBLPROPERTIES (
+        'avro.schema.url'='hdfs://namenode01:9000/path/to/twitter.avsc');
+    );
+```
 
 
 #### Using avro.schema.literal to embed an Avro schema
@@ -430,30 +432,35 @@ If you need to point to a particular HDFS namespace you can include the hostname
 An alternative to setting ``avro.schema.url`` and using an external Avro schema is to embed the schema directly within
 the ``CREATE TABLE`` statement:
 
-    CREATE EXTERNAL TABLE tweets
-        COMMENT "A table backed by Avro data with the Avro schema embedded in the CREATE TABLE statement"
-        ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
-        STORED AS
-        INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
-        OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
-        LOCATION '/twitter/firehose/'
-        TBLPROPERTIES (
-            'avro.schema.literal'='{
-                "type": "record",
-                "name": "Tweet",
-                "namespace": "com.miguno.avro",
-                "fields": [
-                    { "name":"username",  "type":"string"},
-                    { "name":"tweet",     "type":"string"},
-                    { "name":"timestamp", "type":"long"}
-                ]
-            }'
-        );
+```sql
+CREATE EXTERNAL TABLE tweets
+    COMMENT "A table backed by Avro data with the Avro schema embedded in the CREATE TABLE statement"
+    ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
+    STORED AS
+    INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
+    OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
+    LOCATION '/twitter/firehose/'
+    TBLPROPERTIES (
+        'avro.schema.literal'='{
+            "type": "record",
+            "name": "Tweet",
+            "namespace": "com.miguno.avro",
+            "fields": [
+                { "name":"username",  "type":"string"},
+                { "name":"tweet",     "type":"string"},
+                { "name":"timestamp", "type":"long"}
+            ]
+        }'
+    );
+```
+
 
 Hive can also use variable substitution to embed the required Avro schema at run-time of a Hive script:
 
-    CREATE EXTERNAL TABLE tweets [...]
-        TBLPROPERTIES ('avro.schema.literal'='${hiveconf:schema}');
+```sql
+CREATE EXTERNAL TABLE tweets [...]
+    TBLPROPERTIES ('avro.schema.literal'='${hiveconf:schema}');
+```
 
 To execute the Hive script you would then run:
 
