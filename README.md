@@ -116,16 +116,20 @@ Here is a snippet of the example data:
 The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).
 Upload ``twitter.avro`` to HDFS to make the input data available to our MapReduce jobs.
 
-    # upload the input data
-    $ hadoop fs -mkdir examples/input
-    $ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro examples/input
+```bash
+# upload the input data
+$ hadoop fs -mkdir examples/input
+$ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro examples/input
+```
 
 We will also upload the Avro schema [twitter.avsc](src/main/resources/avro/twitter.avsc) to HDFS because we will use
 a schema available at an HDFS location in one of the Hive examples.
 
-    # upload the Avro schema
-    $ hadoop fs -mkdir examples/schema
-    $ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
+```bash
+# upload the Avro schema
+$ hadoop fs -mkdir examples/schema
+$ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
+```
 
 
 <a name="Java"></a>
@@ -139,23 +143,28 @@ a schema available at an HDFS location in one of the Hive examples.
 
 To prepare your Java IDE:
 
-    # IntelliJ IDEA
-    $ gradle cleanIdea idea   # then File > Open... > avro-hadoop-starter.ipr
+```bash
+# IntelliJ IDEA
+$ gradle cleanIdea idea   # then File > Open... > avro-hadoop-starter.ipr
 
-    # Eclipse
-    $ gradle cleanEclipse eclipse
-
+# Eclipse
+$ gradle cleanEclipse eclipse
+```
 
 To build the Java code and to compile the Avro-based Java classes from the schemas (``*.avsc``) in
 ``src/main/resources/avro/``:
 
-    $ gradle clean build
+```bash
+$ gradle clean build
+```
 
 The generated Avro-based Java classes are written under the directory tree ``generated-sources/``.
 
 To run the unit tests (notably ``TweetCountTest``, see section _Examples_ below):
 
-    $ gradle test
+```bash
+$ gradle test
+```
 
 Note: ``gradle test`` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run ``gradle testng``
 for executing those.
@@ -281,24 +290,28 @@ step via the option ``-D mapred.reduce.tasks=0`` (see
 [Specifying Map-Only Jobs](http://hadoop.apache.org/docs/r1.1.2/streaming.html#Specifying+Map-Only+Jobs) in the
 Hadoop Streaming documenation).
 
-    # run the streaming job
-    $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
-        -D mapred.job.name="avro-streaming" \
-        -D mapred.reduce.tasks=0 \
-        -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
-        -libjars avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
-        -input  examples/input/ \
-        -output streaming/output/ \
-        -mapper org.apache.hadoop.mapred.lib.IdentityMapper \
-        -inputformat org.apache.avro.mapred.AvroAsTextInputFormat
+```bash
+# run the streaming job
+$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
+    -D mapred.job.name="avro-streaming" \
+    -D mapred.reduce.tasks=0 \
+    -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
+    -libjars avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
+    -input  examples/input/ \
+    -output streaming/output/ \
+    -mapper org.apache.hadoop.mapred.lib.IdentityMapper \
+    -inputformat org.apache.avro.mapred.AvroAsTextInputFormat
+```
 
 Once the job completes you can inspect the output data as follows:
 
-    $ hadoop fs -cat streaming/output/part-00000 | head -4
-    {"username": "miguno", "tweet": "Rock: Nerf paper, scissors is fine.", "timestamp": 1366150681}
-    {"username": "BlizzardCS", "tweet": "Works as intended.  Terran is IMBA.", "timestamp": 1366154481}
-    {"username": "DarkTemplar", "tweet": "From the shadows I come!", "timestamp": 1366154681}
-    {"username": "VoidRay", "tweet": "Prismatic core online!", "timestamp": 1366160000}
+```
+$ hadoop fs -cat streaming/output/part-00000 | head -4
+{"username": "miguno", "tweet": "Rock: Nerf paper, scissors is fine.", "timestamp": 1366150681}
+{"username": "BlizzardCS", "tweet": "Works as intended.  Terran is IMBA.", "timestamp": 1366154481}
+{"username": "DarkTemplar", "tweet": "From the shadows I come!", "timestamp": 1366154681}
+{"username": "VoidRay", "tweet": "Prismatic core online!", "timestamp": 1366160000}
+```
 
 Please be aware that the output data just happens to be JSON.  This is because we opted not to modify any of the input
 data in our MapReduce job.  And since the input data to our MapReduce job is deserialized by Avro into JSON, the output
@@ -313,7 +326,11 @@ format, for instance.
 To write the output in Avro format instead of plain-text, use the same general options as in the previous example but
 also add:
 
+```bash
+$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
+    [...]
     -outputformat org.apache.avro.mapred.AvroTextOutputFormat
+```
 
 [AvroTextOutputFormat](http://avro.apache.org/docs/1.7.4/api/java/index.html?org/apache/avro/mapred/AvroTextOutputFormat.html)
 is the equivalent of TextOutputFormat.  It writes Avro data files with a "bytes" schema.
@@ -322,14 +339,16 @@ Note that using ``IdentityMapper`` as a naive mapper as shown in the previous ex
 being identical to the input file.  This is because ``AvroTextOutputFormat`` will escape (quote) the input data it
 receives from ``cat``.  An illustration might be worth a thousand words:
 
-    # After having used IdentityMapper as in the previous example
-    $ hadoop fs -copyToLocal streaming/output/part-00000.avro .
+```bash
+# After having used IdentityMapper as in the previous example
+$ hadoop fs -copyToLocal streaming/output/part-00000.avro .
 
-    $ java -jar avro-tools-1.7.4.jar tojson part-00000.avro  | head -4
-    "{\"username\": \"miguno\", \"tweet\": \"Rock: Nerf paper, scissors is fine.\", \"timestamp\": 1366150681}\t"
-    "{\"username\": \"BlizzardCS\", \"tweet\": \"Works as intended.  Terran is IMBA.\", \"timestamp\": 1366154481}\t"
-    "{\"username\": \"DarkTemplar\", \"tweet\": \"From the shadows I come!\", \"timestamp\": 1366154681}\t"
-    "{\"username\": \"VoidRay\", \"tweet\": \"Prismatic core online!\", \"timestamp\": 1366160000}\t"
+$ java -jar avro-tools-1.7.4.jar tojson part-00000.avro  | head -4
+"{\"username\": \"miguno\", \"tweet\": \"Rock: Nerf paper, scissors is fine.\", \"timestamp\": 1366150681}\t"
+"{\"username\": \"BlizzardCS\", \"tweet\": \"Works as intended.  Terran is IMBA.\", \"timestamp\": 1366154481}\t"
+"{\"username\": \"DarkTemplar\", \"tweet\": \"From the shadows I come!\", \"timestamp\": 1366154681}\t"
+"{\"username\": \"VoidRay\", \"tweet\": \"Prismatic core online!\", \"timestamp\": 1366160000}\t"
+```bash
 
 
 #### Custom Avro output schema
