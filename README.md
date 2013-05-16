@@ -520,7 +520,8 @@ $ hive
 hive>
 ```
 
-Let's inspect how Hive interprets the Avro data:
+Let's inspect how Hive interprets the Avro data with ``DESCRIBE``.  You can also use ``DESCRIBE EXTENDED`` to see even
+more details, including the Avro schema of the table.
 
     hive> DESCRIBE tweets;
     OK
@@ -528,8 +529,6 @@ Let's inspect how Hive interprets the Avro data:
     tweet   string  from deserializer
     timestamp       bigint  from deserializer
     Time taken: 1.786 seconds
-
-You can also use ``DESCRIBE EXTENDED`` to see even more details.
 
 Now we can perform interactive analysis of our example data:
 
