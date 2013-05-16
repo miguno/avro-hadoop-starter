@@ -387,7 +387,7 @@ TODO
 The following ``CREATE TABLE`` statement creates an external Hive table named ``tweets`` for storing Twitter messages
 in a very basic data structure that consists of username, content of the message and a timestamp.
 
-```sql
+```hive
 CREATE EXTERNAL TABLE tweets
     COMMENT "A table backed by Avro data with the Avro schema stored in HDFS"
     ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
