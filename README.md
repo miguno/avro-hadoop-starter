@@ -560,6 +560,8 @@ The following query will launch a MapReduce job to compute the result:
     miguno
     Time taken: 16.782 seconds
 
+As you can see Hive makes working Avro data completely transparent once you have defined the Hive table accordingly.
+
 
 ### Enabling compression of Avro output data
 
