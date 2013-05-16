@@ -60,6 +60,15 @@ dependencies {
     testCompile group: 'org.apache.hadoop', name: 'hadoop-test', version: '2.0.0-mr1-cdh4.2.0'
     testCompile group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '2.0.0-cdh4.2.0'
     testCompile group: 'org.apache.hadoop', name: 'hadoop-minicluster', version: '2.0.0-mr1-cdh4.2.0'
+    // Workaround for a known bug in commons-daemon 1.0.3, which is a transitive dependency of hadoop-hdfs
+    testCompile("commons-daemon:commons-daemon:1.0.5") {
+        // Force version 1.0.5 because of a known bug in the 1.0.3 pom file that results in the following build error:
+        //
+        //    Could not resolve commons-daemon:commons-daemon:1.0.3: inconsistent module descriptor file found in: [...]
+        //        bad organisation: expected='commons-daemon' found='org.apache.commons'
+        //
+        force = true
+    }
     testCompile group: 'org.testng', name: 'testng', version: '6.8'
     testCompile group: 'org.uncommons', name: 'reportng', version: '1.1.3'
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.0'
