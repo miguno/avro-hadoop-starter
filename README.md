@@ -417,7 +417,10 @@ efficient at serving static files then using HTTP locations for Avro schemas sho
 If you need to point to a particular HDFS namespace you can include the hostname and port of the NameNode in
 ``avro.schema.url``:
 
-    hdfs://namenode01:9000/path/to/twitter.avsc
+    CREATE EXTERNAL TABLE [...]
+        TBLPROPERTIES (
+            'avro.schema.url'='hdfs://namenode01:9000/path/to/twitter.avsc');
+        );
 
 
 #### Using avro.schema.literal to embed an Avro schema
