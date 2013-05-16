@@ -85,6 +85,9 @@ We are using a small Twitter-like data set as input for our example MapReduce jo
 
 The latest version of the schema is always available at [twitter.avsc](src/main/resources/avro/twitter.avsc).
 
+If you want to generate Java classes from this Avro schema follow the instructions described in section
+<a href="#Build and run">Build and run</a>.  Alternatively you can also use the Avro Compiler directly.
+
 
 <a name="Avro data files"></a>
 
@@ -159,7 +162,8 @@ To build the Java code and to compile the Avro-based Java classes from the schem
 $ gradle clean build
 ```
 
-The generated Avro-based Java classes are written under the directory tree ``generated-sources/``.
+The generated Avro-based Java classes are written under the directory tree ``generated-sources/``.  The Avro
+compiler will generate a Java class ``Tweet`` from the ``twitter.avsc`` schema.
 
 To run the unit tests (notably ``TweetCountTest``, see section _Examples_ below):
 
