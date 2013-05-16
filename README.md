@@ -534,11 +534,11 @@ Now we can perform interactive analysis of our example data:
 
     hive> SELECT * FROM tweets LIMIT 5;
     OK
-    miguno  Rock: Nerf paper, scissors is fine.     1366150681
-    BlizzardCS      Works as intended.  Terran is IMBA.     1366154481
-    DarkTemplar     From the shadows I come!        1366154681
-    VoidRay Prismatic core online!  1366160000
-    VoidRay Fire at will, commander.        1366160010
+    miguno        Rock: Nerf paper, scissors is fine.   1366150681
+    BlizzardCS    Works as intended.  Terran is IMBA.   1366154481
+    DarkTemplar   From the shadows I come!              1366154681
+    VoidRay       Prismatic core online!                1366160000
+    VoidRay       Fire at will, commander.              1366160010
     Time taken: 0.126 seconds
 
 The following query will launch a MapReduce job to compute the result:
@@ -553,7 +553,7 @@ The following query will launch a MapReduce job to compute the result:
     Job 0: Map: 1  Reduce: 1   Cumulative CPU: 4.29 sec   HDFS Read: 1887 HDFS Write: 47 SUCCESS
     Total MapReduce CPU Time Spent: 4 seconds 290 msec
     OK
-    BlizzardCS
+    BlizzardCS          <<< Query results start here
     DarkTemplar
     Immortal
     VoidRay
