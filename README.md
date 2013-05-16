@@ -464,10 +464,12 @@ CREATE EXTERNAL TABLE tweets [...]
 
 To execute the Hive script you would then run:
 
-    # SCHEMA must be a properly escaped version of the Avro schema; i.e. carriage returns converted to \n, tabs to \t,
-    # quotes escaped, and so on.
-    $ export SCHEMA="..."
-    $ hive -hiveconf schema="${SCHEMA}" -f hive_script.hql
+```bash
+# SCHEMA must be a properly escaped version of the Avro schema; i.e. carriage returns converted to \n, tabs to \t,
+# quotes escaped, and so on.
+$ export SCHEMA="..."
+$ hive -hiveconf schema="${SCHEMA}" -f hive_script.hql
+```
 
 
 #### Switching from avro.schema.url to avro.schema.literal or vice versa
