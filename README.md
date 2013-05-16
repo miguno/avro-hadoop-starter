@@ -387,18 +387,18 @@ TODO
 The following ``CREATE TABLE`` statement creates an external Hive table named ``tweets`` for storing Twitter messages
 in a very basic data structure that consists of username, content of the message and a timestamp.
 
-    ```sql
-    CREATE EXTERNAL TABLE tweets
-        COMMENT "A table backed by Avro data with the Avro schema stored in HDFS"
-        ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
-        STORED AS
-        INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
-        OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
-        LOCATION '/twitter/firehose/'
-        TBLPROPERTIES (
-            'avro.schema.url'='hdfs:///user/YOURUSER/examples/schema/twitter.avsc');
-        );
-    ```
+```sql
+CREATE EXTERNAL TABLE tweets
+    COMMENT "A table backed by Avro data with the Avro schema stored in HDFS"
+    ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
+    STORED AS
+    INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
+    OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
+    LOCATION '/twitter/firehose/'
+    TBLPROPERTIES (
+        'avro.schema.url'='hdfs:///user/YOURUSER/examples/schema/twitter.avsc');
+    );
+```
 
 
 _Note: You must replace ``YOURUSER`` in the ``avro.schema.url`` value above with your actual username._
