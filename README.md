@@ -120,7 +120,10 @@ Upload ``twitter.avro`` to HDFS to make the input data available to our MapReduc
     $ hadoop fs -mkdir examples/input
     $ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro examples/input
 
-    # upload the Avro schema (we will use this for one of the Hive examples)
+We will also upload the Avro schema [twitter.avsc](src/main/resources/avro/twitter.avsc) to HDFS because we will use
+a schema available at an HDFS location in one of the Hive examples.
+
+    # upload the Avro schema
     $ hadoop fs -mkdir examples/schema
     $ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
 
