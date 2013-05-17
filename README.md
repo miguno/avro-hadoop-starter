@@ -342,7 +342,7 @@ is the equivalent of TextOutputFormat.  It writes Avro data files with a "bytes"
 
 Note that using ``IdentityMapper`` as a naive mapper as shown in the previous example will not result in the output file
 being identical to the input file.  This is because ``AvroTextOutputFormat`` will escape (quote) the input data it
-receives from ``cat``.  An illustration might be worth a thousand words:
+receives.  An illustration might be worth a thousand words:
 
 ```bash
 # After having used IdentityMapper as in the previous example
