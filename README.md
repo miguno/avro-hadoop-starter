@@ -293,7 +293,7 @@ the ``IdentityMapper`` as a naive map step implementation -- it outputs its inpu
 coud use the Unix tool ``cat``, here) .  We do not need to run a reduce phase here, which is why we disable the reduce
 step via the option ``-D mapred.reduce.tasks=0`` (see
 [Specifying Map-Only Jobs](http://hadoop.apache.org/docs/r1.1.2/streaming.html#Specifying+Map-Only+Jobs) in the
-Hadoop Streaming documenation).
+Hadoop Streaming documentation).
 
 ```bash
 # run the streaming job
