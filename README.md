@@ -795,7 +795,9 @@ to discrepancies of Pig and Avro data models (or problems of Pig itself).  See
             }');
 
 If you need to store the data in two or more different ways (e.g. you want to rename fields) you must add the parameter
-["index"](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) to the ``AvroStorage`` arguments:
+["index"](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) to the ``AvroStorage`` arguments.  Pig uses this
+information as a workaround to distinguish schemas specified by different AvroStorage calls until Pig's StoreFunc
+provides access to Pig's output schema in the backend.
 
     STORE records INTO 'pig/output-variant-A/'
         USING org.apache.pig.piggybank.storage.avro.AvroStorage(
