@@ -839,6 +839,7 @@ To disable compression again in the same Pig script/Pig Grunt shell:
 ### Further readings on Pig
 
 * [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) on the Pig wiki
+* [AvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/main/java/org/apache/pig/piggybank/storage/avro/AvroStorage.java)
 * [TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
   -- many unit test examples that demonstrate how to use ``AvroStorage``
 
