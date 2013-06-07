@@ -794,7 +794,7 @@ to discrepancies of Pig and Avro data models (or problems of Pig itself).  See
                 "field0": "def:username"
             }');
 
-If you need to store data in two or more different ways (e.g. you want to rename fields) you must add the parameter
+If you need to store the data in two or more different ways (e.g. you want to rename fields) you must add the parameter
 ["index"](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) to the ``AvroStorage`` arguments:
 
     STORE records INTO 'pig/output-variant-A/'
