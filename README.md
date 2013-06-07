@@ -814,8 +814,8 @@ If you need to store data in two or more different ways (e.g. you want to rename
 
 To enable compression add the following statements to your Pig script or enter them into the Pig Grunt shell:
 
-    -- We also enable compression of map output because some Pig jobs skip the reduce phase;  this ensures that we
-    -- always generate compressed job output.
+    -- We also enable compression of map output (which should be enabled by default anyways) because some Pig jobs
+    -- skip the reduce phase;  this ensures that we always generate compressed job output.
     SET mapred.compress.map.output true;
     SET mapred.output.compress true;
     SET mapred.output.compression.codec org.apache.hadoop.io.compress.SnappyCodec
@@ -824,6 +824,8 @@ To enable compression add the following statements to your Pig script or enter t
 To disable compression again in the same Pig script/Pig Grunt shell:
 
     SET mapred.output.compress false;
+    -- Optionally: disable compression of map output (normally you want to leave this enabled)
+    SET mapred.compress.map.output false;
 
 
 <a name="Further readings on Pig"></a>
