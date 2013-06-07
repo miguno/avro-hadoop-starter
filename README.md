@@ -668,10 +668,9 @@ _About "no_schema_check":_
 default ``AvroStorage`` performs a schema check.  This process may take some time (seconds) when the input directory
 contains many sub-directories and files.  You can set the option "no_schema_check" to disable this schema check.
 
-See
-[TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
-for further examples on using ``AvroStorage``.  For instance, you can also mix ``schema_file`` with manually defined
-data fields.
+_See [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) and_
+_[TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)_
+_for further examples._
 
 The ``records`` relation is already in perfectly usable format -- you do not need to manually define a (Pig) schema as
 you would usually do via ``LOAD ... AS (...schema follows...)``.
