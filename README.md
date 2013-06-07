@@ -518,7 +518,7 @@ If for a given Hive table you want to change how the Avro schema is specified yo
 > the other, set the to-be-ignored value to none and the AvroSerde will treat it as if it were not set.
 
 
-### Running a Hive query
+### Analyzing the data with Hive
 
 After you have created the Hive table ``tweets`` with one of the ``CREATE TABLE`` statements above (no matter which),
 you can start analyzing the example data with Hive.  We will demonstrate this via the interactive Hive shell, but you
@@ -668,9 +668,12 @@ _About "no_schema_check":_
 default ``AvroStorage`` performs a schema check.  This process may take some time (seconds) when the input directory
 contains many sub-directories and files.  You can set the option "no_schema_check" to disable this schema check.
 
-_See [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) and_
-_[TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)_
-_for further examples._
+See [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) and
+[TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
+for further examples.
+
+
+### Analyzing the data with Pig
 
 The ``records`` relation is already in perfectly usable format -- you do not need to manually define a (Pig) schema as
 you would usually do via ``LOAD ... AS (...schema follows...)``.
@@ -807,6 +810,10 @@ If you need to store data in two or more different ways (e.g. you want to rename
                 "index": 2,
                 "schema": { ... }
             }');
+
+See [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) and
+[TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
+for further examples.
 
 
 #### Enabling compression of Avro output data
