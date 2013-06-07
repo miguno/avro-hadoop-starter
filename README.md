@@ -528,7 +528,7 @@ $ hive
 hive>
 ```
 
-Let's inspect how Hive interprets the Avro data with ``DESCRIBE``.  You can also use ``DESCRIBE EXTENDED`` to see even
+Let us inspect how Hive interprets the Avro data with ``DESCRIBE``.  You can also use ``DESCRIBE EXTENDED`` to see even
 more details, including the Avro schema of the table.
 
     hive> DESCRIBE tweets;
