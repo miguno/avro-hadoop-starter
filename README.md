@@ -43,11 +43,11 @@ The examples require the following software versions:
 
 * Java JDK 7
 * [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2)
-    * Tested with Cloudera CDH 4.2
-* [Pig](http://pig.apache.org/) 0.10
-    * Tested with Pig 0.10.0-cdh4.2.1
+    * Tested with Cloudera CDH 4.3
+* [Pig](http://pig.apache.org/) 0.11
+    * Tested with Pig 0.11.0-cdh4.3.0
 * [Hive](http://hive.apache.org/) 0.10
-    * Tested with Hive 0.10.0-cdh4.2.1
+    * Tested with Hive 0.10.0-cdh4.3.0
 * [Avro](http://avro.apache.org/) 1.7.4
 
 
