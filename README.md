@@ -25,8 +25,11 @@ Table of Contents
 * <a href="#Hive">Hive</a>
     * <a href="#Preliminaries-Hive">Preliminaries</a>
     * <a href="#Examples-Hive">Examples</a>
-    * <a href="#Further readings on Java">Further readings on Hive</a>
+    * <a href="#Further readings on Hive">Further readings on Hive</a>
 * <a href="#Pig">Pig</a>
+    * <a href="#Preliminaries-Pig">Preliminaries</a>
+    * <a href="#Examples-Pig">Examples</a>
+    * <a href="#Further readings on Pig">Further readings on Pig</a>
 * <a href="#Related documentation">Related documentation</a>
 
 ---
@@ -256,7 +259,7 @@ line.  Note that Avro will also add a trailing TAB (``\t``) at the end of each l
     <JSON representation of Avro record #3>\t
     ...
 
-Here's the basic data flow from your input data in binary Avro format to our streaming mapper:
+Here is the basic data flow from your input data in binary Avro format to our streaming mapper:
 
     input.avro (binary)  ---AvroAsTextInputFormat---> deserialized data (JSON) ---> Mapper
 
@@ -441,7 +444,7 @@ The serde parameter ``avro.schema.url`` can use URI schemes such as ``hdfs://``,
 
 > [If the avro.schema.url points] to a location on HDFS [...], the AvroSerde will then read the file from HDFS, which
 > should provide resiliency against many reads at once [which can be a problem for HTTP locations].  Note that the serde
-> will read this file from every mapper, so it's a good idea to turn the replication of the schema file to a high value
+> will read this file from every mapper, so it is a good idea to turn the replication of the schema file to a high value
 > to provide good locality for the readers.  The schema file itself should be relatively small, so this does not add a
 > significant amount of overhead to the process.
 
@@ -454,7 +457,7 @@ If you need to point to a particular HDFS namespace you can include the hostname
 ```sql
 CREATE EXTERNAL TABLE [...]
     TBLPROPERTIES (
-        'avro.schema.url'='hdfs://namenode01:9000/path/to/twitter.avsc'
+        'avro.schema.url'='hdfs://namenode01:8020/path/to/twitter.avsc'
     );
 ```
 
@@ -600,7 +603,235 @@ To disable compression again in the same Hive script/Hive shell:
 
 # Pig
 
-TODO
+
+<a name="Preliminaries-Pig"></a>
+
+## Preliminaries
+
+Important: The examples below assume you have access to a running Hadoop cluster.
+
+
+<a name="Examples-Pig"></a>
+
+## Examples
+
+
+### Prerequisites
+
+First we must register the required jar files to be able to work with Avro.  In this example I am using the jar files
+shipped with CDH4.  If you are not using CDH4 just adapt the paths to match your Hadoop distribution.
+
+    REGISTER /app/cloudera/parcels/CDH/lib/pig/piggybank.jar
+    REGISTER /app/cloudera/parcels/CDH/lib/pig/lib/avro-*.jar
+    REGISTER /app/cloudera/parcels/CDH/lib/pig/lib/jackson-core-asl-*.jar
+    REGISTER /app/cloudera/parcels/CDH/lib/pig/lib/jackson-mapper-asl-*.jar
+    REGISTER /app/cloudera/parcels/CDH/lib/pig/lib/json-simple-*.jar
+    REGISTER /app/cloudera/parcels/CDH/lib/pig/lib/snappy-java-*.jar
+
+Note: If you also want to work with Python UDFs in PiggyBank you must also register the Jython jar file:
+
+    REGISTER /app/cloudera/parcels/CDH/lib/pig/lib/jython-standalone-*.jar
+
+
+### Reading Avro
+
+To read input data in Avro format you must use ``AvroStorage``.  The following statements show various ways to load
+Avro data.
+
+    -- Easiest case: when the input data contains an embedded Avro schema (our example input data does).
+    -- Note that all the files under the directory should have the same schema.
+    records = LOAD 'examples/input/' USING org.apache.pig.piggybank.storage.avro.AvroStorage();
+
+    --
+    -- Next commands show how to manually specify the data schema
+    --
+
+    -- Using external schema file (stored on HDFS), relative path
+    records = LOAD 'examples/input/'
+              USING org.apache.pig.piggybank.storage.avro.AvroStorage('no_schema_check',
+                   'schema_file', 'examples/schema/twitter.avsc');
+
+    -- Using external schema file (stored on HDFS), absolute path
+    records = LOAD 'examples/input/'
+              USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+                'no_schema_check',
+                'schema_file', 'hdfs:///user/YOURUSERNAME/examples/schema/twitter.avsc');
+
+    -- Using external schema file (stored on HDFS), absolute path with explicit HDFS namespace
+    records = LOAD 'examples/input/'
+              USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+                'no_schema_check',
+                'schema_file', 'hdfs://namenode01:8020/user/YOURUSERNAME/examples/schema/twitter.avsc');
+
+_About "no_schema_check":_
+``AvroStorage`` assumes that all Avro files in sub-directories of an input directory share the same schema, and by
+default ``AvroStorage`` performs a schema check.  This process may take some time (seconds) when the input directory
+contains many sub-directories and files.  You can set the option "no_schema_check" to disable this schema check.
+
+See
+[TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
+for further examples on using ``AvroStorage``.  For instance, you can also mix ``schema_file`` with manually defined
+data fields.
+
+The ``records`` relation is already in perfectly usable format -- you do not need to manually define a (Pig) schema as
+you would usually do via ``LOAD ... AS (...schema follows...)``.
+
+    grunt> DESCRIBE records;
+    records: {username: chararray,tweet: chararray,timestamp: long}
+
+Let us take a first look at the contents of the our input data.  Note that the output you will see will vary at each
+invocation due to how [ILLUSTRATE](http://pig.apache.org/docs/r0.11.1/test.html) works.
+
+    grunt> ILLUSTRATE records;
+    <snip>
+    --------------------------------------------------------------------------------------------
+    | records     | username:chararray      | tweet:chararray            | timestamp:long      |
+    --------------------------------------------------------------------------------------------
+    |             | DarkTemplar             | I strike from the shadows! | 1366184681          |
+    --------------------------------------------------------------------------------------------
+
+Now we can perform interactive analysis of our example data:
+
+    grunt> first_five_records = LIMIT records 5;
+    grunt> DUMP first_five_records;   <<< this will trigger a MapReduce job
+    [...snip...]
+    (miguno,Rock: Nerf paper, scissors is fine.,1366150681)
+    (VoidRay,Prismatic core online!,1366160000)
+    (VoidRay,Fire at will, commander.,1366160010)
+    (BlizzardCS,Works as intended.  Terran is IMBA.,1366154481)
+    (DarkTemplar,From the shadows I come!,1366154681)
+
+List the (unique) names of users that created tweets:
+
+    grunt> usernames = DISTINCT (FOREACH records GENERATE username);
+    grunt> DUMP usernames;            <<< this will trigger a MapReduce job
+    [...snip...]
+    (miguno)
+    (VoidRay)
+    (Immortal)
+    (BlizzardCS)
+    (DarkTemplar)
+
+
+### Writing Avro
+
+To write output data in Avro format you must use ``AvroStorage`` -- just like for reading Avro data.
+
+It is strongly recommended that you do specify an explicit output schema when writing Avro data.  If you don't then Pig
+will try to infer the output Avro schema from the data's Pig schema -- and this may result in undesirable schemas due
+to discrepancies of Pig and Avro data models (or problems of Pig itself).  See
+[AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) for details.
+
+    -- Use the same output schema as an existing directory of Avro files (files should have the same schema).
+    -- This is helpful, for instance, when doing simple processing such as filtering the input data without modifying
+    -- the resulting data layout.
+    STORE records INTO 'pig/output/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            'no_schema_check',
+            'data', 'examples/input/');
+
+    -- Use the same output schema as an existing Avro file as opposed to a directory of such files
+    STORE records INTO 'pig/output/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            'no_schema_check',
+            'data', 'examples/input/twitter.avro');
+
+    -- Manually define an Avro schema (here, we rename 'username' to 'user' and 'tweet' to 'message')
+    STORE records INTO 'pig/output/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            '{
+                "schema": {
+                    "type": "record",
+                    "name": "Tweet",
+                    "namespace": "com.miguno.avro",
+                    "fields": [
+                        {
+                            "name": "user",
+                            "type": "string"
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        },
+                        {
+                            "name": "timestamp",
+                            "type": "long"
+                        }
+                    ],
+                    "doc:" : "A slightly modified schema for storing Twitter messages"
+                }
+            }');
+
+**TODO:** To store the ``usernames`` relation from the _Reading Avro_ section above:
+
+    -- TODO: WHY DOES THIS STATEMENT FAIL DURING MAPREDUCE RUNTIME WITH
+    --          java.io.IOException: org.apache.avro.file.DataFileWriter$AppendWriteException:
+    --              java.lang.RuntimeException: Unsupported type in record:class java.lang.String
+    --
+    STORE usernames INTO 'pig/output/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            '{
+                "index": 1,
+                "schema": {
+                    "type":"record",
+                    "name":"User",
+                    "namespace": "com.miguno.avro",
+                    "fields": [
+                        {"name":"username","type":"string"}
+                    ]
+                }
+            }');
+
+
+    -- TODO: THIS STATEMENT FAILS, TOO, WITH THE SAME RUNTIME EXCEPTION
+    --
+    STORE usernames INTO 'pig/output/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            '{
+                "schema_file": "examples/schema/user.avsc",
+                "field0": "def:username"
+            }');
+
+If you need to store data in two or more different ways (e.g. you want to rename fields) you must add the parameter
+["index"](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) to the ``AvroStorage`` arguments:
+
+    STORE records INTO 'pig/output-variant-A/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            '{
+                "index": 1,
+                "schema": { ... }
+            }');
+
+    STORE records INTO 'pig/output-variant-B/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            '{
+                "index": 2,
+                "schema": { ... }
+            }');
+
+
+#### Enabling compression of Avro output data
+
+To enable compression add the following statements to your Pig script or enter them into the Pig Grunt shell:
+
+    -- for compression with Snappy
+    SET mapred.output.compress true;
+    SET mapred.output.compression.codec org.apache.hadoop.io.compress.SnappyCodec
+    SET avro.output.codec snappy;
+
+To disable compression again in the same Pig script/Pig Grunt shell:
+
+    SET mapred.output.compress false;
+
+
+
+<a name="Further readings on Pig"></a>
+
+### Further readings on Pig
+
+* [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) on the Pig wiki
+* [TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
+  -- many unit test examples that demonstrate how to use ``AvroStorage``
 
 
 <a name="Related documentation"></a>
