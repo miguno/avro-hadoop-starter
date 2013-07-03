@@ -1,7 +1,7 @@
 avro-hadoop-starter
 ===================
 
-Example MapReduce jobs that read and/or write data in Avro format.
+Example MapReduce jobs n Java, Hadoop Streaming, Pig and Hive that read and/or write data in Avro format.
 
 ---
 
