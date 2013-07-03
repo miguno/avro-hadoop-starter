@@ -1,0 +1,19 @@
+# Gradle
+.gradle/
+build/
+test-output/
+
+# IDEA IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+generated-sources/
