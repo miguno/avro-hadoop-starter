@@ -50,7 +50,7 @@ The examples require the following software versions:
         a couple of JDK 7 related gotchas that the Java example code solves I decided to stick with JDK 7 as the
         default.
 * [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2/YARN)
-    * Tested with Cloudera CDH 4.3
+    * Tested with [Cloudera CDH 4.3](http://www.cloudera.com/content/cloudera/en/products/cdh.html)
 * [Pig](http://pig.apache.org/) 0.11
     * Tested with Pig 0.11.0-cdh4.3.0
 * [Hive](http://hive.apache.org/) 0.10
