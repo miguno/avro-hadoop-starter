@@ -131,7 +131,7 @@ The example input data we are using is [twitter.avro](src/test/resources/avro/tw
 Upload ``twitter.avro`` to HDFS to make the input data available to our MapReduce jobs.
 
 ```bash
-# upload the input data
+# Upload the input data
 $ hadoop fs -mkdir examples/input
 $ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro examples/input
 ```
@@ -140,7 +140,7 @@ We will also upload the Avro schema [twitter.avsc](src/main/resources/avro/twitt
 a schema available at an HDFS location in one of the Hive examples.
 
 ```bash
-# upload the Avro schema
+# Upload the Avro schema
 $ hadoop fs -mkdir examples/schema
 $ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
 ```
@@ -306,7 +306,7 @@ step via the option ``-D mapred.reduce.tasks=0`` (see
 Hadoop Streaming documentation).
 
 ```bash
-# run the streaming job
+# Run the streaming job
 $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
     -D mapred.job.name="avro-streaming" \
     -D mapred.reduce.tasks=0 \
@@ -379,10 +379,10 @@ For a workaround take a look at the section _Avro output for Hadoop Streaming_ a
 
 If you want to enable compression for the Avro output data, you must add the following parameters to the streaming job:
 
-    # for Snappy
+    # For compression with Snappy
     -D mapred.output.compress=true -D avro.output.codec=snappy
 
-    # for Deflate
+    # For compression with Deflate
     -D mapred.output.compress=true -D avro.output.codec=deflate
 
 Be aware that if you enable compression with ``mapred.output.compress`` but are NOT specifying an Avro output format
@@ -585,11 +585,11 @@ As you can see Hive makes working Avro data completely transparent once you have
 
 To enable compression add the following statements to your Hive script or enter them into the Hive shell:
 
-    # for compression with Snappy
+    # For compression with Snappy
     SET hive.exec.compress.output=true;
     SET avro.output.codec=snappy;
 
-    # for compression with Deflate
+    # For compression with Deflate
     SET hive.exec.compress.output=true;
     SET avro.output.codec=deflate;
 
