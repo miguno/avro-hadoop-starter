@@ -47,8 +47,8 @@ The examples require the following software versions:
 * Java JDK 7 (but only for the Java examples)
     * It is easy to switch to JDK 6.  Mostly you will need to change the ``sourceCompatibility`` and
       ``targetCompatibility`` parameters in [build.gradle](build.gradle) from ``1.7`` to ``1.6``.  But since there are
-        a couple of JDK 7 related gotchas that the Java example code solves I decided to stick with JDK 7 as the
-        default.
+        a couple of JDK 7 related gotchas (e.g. problems with its new bytecode verifier) that the Java example code
+        solves I decided to stick with JDK 7 as the default.
 * [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2/YARN)
     * Tested with [Cloudera CDH 4.3](http://www.cloudera.com/content/cloudera/en/products/cdh.html)
 * [Pig](http://pig.apache.org/) 0.11
