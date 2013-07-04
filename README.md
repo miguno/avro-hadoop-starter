@@ -280,8 +280,8 @@ Here is the basic data flow from your input data in binary Avro format to our st
 
 The example commands below use the Hadoop Streaming jar _for MRv1_ shipped with Cloudera CDH4:
 
-* [hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.2.1/hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar)
-  (as of May 2013)
+* [hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.3.0/hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar)
+  (as of July 2013)
 
 If you are not using Cloudera CDH4 or are using a new version of CDH4 just replace the jar file with the one included
 in your Hadoop installation.
@@ -307,7 +307,7 @@ Hadoop Streaming documentation).
 
 ```bash
 # Run the streaming job
-$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
+$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
     -D mapred.job.name="avro-streaming" \
     -D mapred.reduce.tasks=0 \
     -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
@@ -342,7 +342,7 @@ To write the output in Avro format instead of plain-text, use the same general o
 also add:
 
 ```bash
-$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
+$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
     [...]
     -outputformat org.apache.avro.mapred.AvroTextOutputFormat
 ```
