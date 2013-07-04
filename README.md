@@ -43,8 +43,8 @@ Table of Contents
 
 The examples require the following software versions:
 
-* [Gradle](http://www.gradle.org/) 1.3+
-* Java JDK 7 (but only for the Java examples)
+* [Gradle](http://www.gradle.org/) 1.3+ (only for the Java examples)
+* Java JDK 7 (only for the Java examples)
     * It is easy to switch to JDK 6.  Mostly you will need to change the ``sourceCompatibility`` and
       ``targetCompatibility`` parameters in [build.gradle](build.gradle) from ``1.7`` to ``1.6``.  But since there are
         a couple of JDK 7 related gotchas (e.g. problems with its new bytecode verifier) that the Java example code
