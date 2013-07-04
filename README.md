@@ -13,7 +13,7 @@ Table of Contents
     * <a href="#Avro data files">Avro data files</a>
     * <a href="#Preparing the input data">Preparing the input data</a>
 * <a href="#Java">Java</a>
-    * <a href="#Build and run">Build and run</a>
+    * <a href="#Usage">Usage</a>
     * <a href="#Examples-Java">Examples</a>
     * <a href="#MiniMRCluster and Hadoop MRv2">MiniMRCluster and Hadoop MRv2</a>
     * <a href="#Further readings on Java">Further readings on Java</a>
@@ -96,7 +96,7 @@ We are using a small, Twitter-like data set as input for our example MapReduce j
 The latest version of the schema is always available at [twitter.avsc](src/main/resources/avro/twitter.avsc).
 
 If you want to generate Java classes from this Avro schema follow the instructions described in section
-<a href="#Build and run">Build and run</a>.  Alternatively you can also use the Avro Compiler directly.
+<a href="#Usage">Usage</a>.  Alternatively you can also use the Avro Compiler directly.
 
 
 <a name="Avro data files"></a>
@@ -151,7 +151,7 @@ $ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
 # Java
 
 
-<a name="Build and run"></a>
+<a name="Usage"></a>
 
 ## Usage
 
