@@ -62,7 +62,7 @@ The examples require the following software versions:
 
 # Example data
 
-We are using a small Twitter-like data set as input for our example MapReduce jobs.
+We are using a small, Twitter-like data set as input for our example MapReduce jobs.
 
 
 <a name="Avro schema"></a>
