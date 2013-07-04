@@ -868,7 +868,7 @@ To disable compression again in the same Pig script/Pig Grunt shell:
 
 <a name="Contributing"></a>
 
-## Contributing to Replephant
+## Contributing to avro-hadoop-starter
 
 Code contributions, bug reports, feature requests etc. are all welcome.
 
