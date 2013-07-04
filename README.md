@@ -369,7 +369,8 @@ $ java -jar avro-tools-1.7.4.jar tojson part-00000.avro  | head -4
 #### Custom Avro output schema
 
 This looks not to be supported by stock Avro at the moment.  A related JIRA ticket
-[AVRO-1067](https://issues.apache.org/jira/browse/AVRO-1067), created in April 2012, is still unresolved as of May 2013.
+[AVRO-1067](https://issues.apache.org/jira/browse/AVRO-1067), created in April 2012, is still unresolved as of July
+2013.
 
 For a workaround take a look at the section _Avro output for Hadoop Streaming_ at
 [avro-utils](https://github.com/tomslabs/avro-utils), a third-party library for Avro.
