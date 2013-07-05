@@ -13,7 +13,7 @@ Table of Contents
     * <a href="#Avro data files">Avro data files</a>
     * <a href="#Preparing the input data">Preparing the input data</a>
 * <a href="#Java">Java</a>
-    * <a href="#Build and run">Build and run</a>
+    * <a href="#Usage">Usage</a>
     * <a href="#Examples-Java">Examples</a>
     * <a href="#MiniMRCluster and Hadoop MRv2">MiniMRCluster and Hadoop MRv2</a>
     * <a href="#Further readings on Java">Further readings on Java</a>
@@ -43,12 +43,12 @@ Table of Contents
 
 The examples require the following software versions:
 
-* [Gradle](http://www.gradle.org/) 1.3+
-* Java JDK 7 (but only for the Java examples)
+* [Gradle](http://www.gradle.org/) 1.3+ (only for the Java examples)
+* Java JDK 7 (only for the Java examples)
     * It is easy to switch to JDK 6.  Mostly you will need to change the ``sourceCompatibility`` and
       ``targetCompatibility`` parameters in [build.gradle](build.gradle) from ``1.7`` to ``1.6``.  But since there are
-        a couple of JDK 7 related gotchas that the Java example code solves I decided to stick with JDK 7 as the
-        default.
+        a couple of JDK 7 related gotchas (e.g. problems with its new bytecode verifier) that the Java example code
+        solves I decided to stick with JDK 7 as the default.
 * [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2/YARN)
     * Tested with [Cloudera CDH 4.3](http://www.cloudera.com/content/cloudera/en/products/cdh.html)
 * [Pig](http://pig.apache.org/) 0.11
@@ -62,7 +62,7 @@ The examples require the following software versions:
 
 # Example data
 
-We are using a small Twitter-like data set as input for our example MapReduce jobs.
+We are using a small, Twitter-like data set as input for our example MapReduce jobs.
 
 
 <a name="Avro schema"></a>
@@ -96,7 +96,7 @@ We are using a small Twitter-like data set as input for our example MapReduce jo
 The latest version of the schema is always available at [twitter.avsc](src/main/resources/avro/twitter.avsc).
 
 If you want to generate Java classes from this Avro schema follow the instructions described in section
-<a href="#Build and run">Build and run</a>.  Alternatively you can also use the Avro Compiler directly.
+<a href="#Usage">Usage</a>.  Alternatively you can also use the Avro Compiler directly.
 
 
 <a name="Avro data files"></a>
@@ -151,7 +151,7 @@ $ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
 # Java
 
 
-<a name="Build and run"></a>
+<a name="Usage"></a>
 
 ## Usage
 
@@ -280,8 +280,8 @@ Here is the basic data flow from your input data in binary Avro format to our st
 
 The example commands below use the Hadoop Streaming jar _for MRv1_ shipped with Cloudera CDH4:
 
-* [hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.2.1/hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar)
-  (as of May 2013)
+* [hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.3.0/hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar)
+  (as of July 2013)
 
 If you are not using Cloudera CDH4 or are using a new version of CDH4 just replace the jar file with the one included
 in your Hadoop installation.
@@ -307,7 +307,7 @@ Hadoop Streaming documentation).
 
 ```bash
 # Run the streaming job
-$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
+$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
     -D mapred.job.name="avro-streaming" \
     -D mapred.reduce.tasks=0 \
     -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
@@ -342,7 +342,7 @@ To write the output in Avro format instead of plain-text, use the same general o
 also add:
 
 ```bash
-$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
+$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
     [...]
     -outputformat org.apache.avro.mapred.AvroTextOutputFormat
 ```
@@ -369,7 +369,8 @@ $ java -jar avro-tools-1.7.4.jar tojson part-00000.avro  | head -4
 #### Custom Avro output schema
 
 This looks not to be supported by stock Avro at the moment.  A related JIRA ticket
-[AVRO-1067](https://issues.apache.org/jira/browse/AVRO-1067), created in April 2012, is still unresolved as of May 2013.
+[AVRO-1067](https://issues.apache.org/jira/browse/AVRO-1067), created in April 2012, is still unresolved as of July
+2013.
 
 For a workaround take a look at the section _Avro output for Hadoop Streaming_ at
 [avro-utils](https://github.com/tomslabs/avro-utils), a third-party library for Avro.
@@ -868,7 +869,7 @@ To disable compression again in the same Pig script/Pig Grunt shell:
 
 <a name="Contributing"></a>
 
-## Contributing to Replephant
+## Contributing to avro-hadoop-starter
 
 Code contributions, bug reports, feature requests etc. are all welcome.
 
