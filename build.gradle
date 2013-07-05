@@ -4,7 +4,7 @@ buildscript {
         mavenRepo url: "http://clojars.org/repo"
     }
     dependencies {
-        classpath 'com.mapvine:gradle-cobertura-plugin:1.0'
+        classpath 'com.eriwen:gradle-cobertura-plugin:1.1.0'
         classpath 'org.apache.maven:maven-artifact:2.2.1'
         classpath 'org.apache.avro:avro-compiler:1.7.4'
         classpath 'org.clojars.miguno:avro-gradle-plugin:1.7.2'
@@ -132,7 +132,7 @@ test {
     jvmArgs "-XX:-UseSplitVerifier"
 }
 
-// see https://github.com/Mapvine/gradle-cobertura-plugin
+// https://github.com/eriwen/gradle-cobertura-plugin
 cobertura {
     format = 'xml'
     includes = ['**/*.java']
