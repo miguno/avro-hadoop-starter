@@ -1,7 +1,7 @@
 avro-hadoop-starter
 ===================
 
-Example MapReduce jobs that read and/or write data in Avro format.
+Example MapReduce jobs in Java, Hadoop Streaming, Pig and Hive that read and/or write data in Avro format.
 
 ---
 
@@ -13,7 +13,7 @@ Table of Contents
     * <a href="#Avro data files">Avro data files</a>
     * <a href="#Preparing the input data">Preparing the input data</a>
 * <a href="#Java">Java</a>
-    * <a href="#Build and run">Build and run</a>
+    * <a href="#Usage">Usage</a>
     * <a href="#Examples-Java">Examples</a>
     * <a href="#MiniMRCluster and Hadoop MRv2">MiniMRCluster and Hadoop MRv2</a>
     * <a href="#Further readings on Java">Further readings on Java</a>
@@ -31,6 +31,8 @@ Table of Contents
     * <a href="#Examples-Pig">Examples</a>
     * <a href="#Further readings on Pig">Further readings on Pig</a>
 * <a href="#Related documentation">Related documentation</a>
+* <a href="#Contributing">Contributing to avro-hadoop-starter</a>
+* <a href="#License">License</a>
 
 ---
 
@@ -41,9 +43,14 @@ Table of Contents
 
 The examples require the following software versions:
 
-* Java JDK 7
-* [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2)
-    * Tested with Cloudera CDH 4.3
+* [Gradle](http://www.gradle.org/) 1.3+ (only for the Java examples)
+* Java JDK 7 (only for the Java examples)
+    * It is easy to switch to JDK 6.  Mostly you will need to change the ``sourceCompatibility`` and
+      ``targetCompatibility`` parameters in [build.gradle](build.gradle) from ``1.7`` to ``1.6``.  But since there are
+        a couple of JDK 7 related gotchas (e.g. problems with its new bytecode verifier) that the Java example code
+        solves I decided to stick with JDK 7 as the default.
+* [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2/YARN)
+    * Tested with [Cloudera CDH 4.3](http://www.cloudera.com/content/cloudera/en/products/cdh.html)
 * [Pig](http://pig.apache.org/) 0.11
     * Tested with Pig 0.11.0-cdh4.3.0
 * [Hive](http://hive.apache.org/) 0.10
@@ -55,7 +62,7 @@ The examples require the following software versions:
 
 # Example data
 
-We are using a small Twitter-like data set as input for our example MapReduce jobs.
+We are using a small, Twitter-like data set as input for our example MapReduce jobs.
 
 
 <a name="Avro schema"></a>
@@ -89,7 +96,7 @@ We are using a small Twitter-like data set as input for our example MapReduce jo
 The latest version of the schema is always available at [twitter.avsc](src/main/resources/avro/twitter.avsc).
 
 If you want to generate Java classes from this Avro schema follow the instructions described in section
-<a href="#Build and run">Build and run</a>.  Alternatively you can also use the Avro Compiler directly.
+<a href="#Usage">Usage</a>.  Alternatively you can also use the Avro Compiler directly.
 
 
 <a name="Avro data files"></a>
@@ -124,7 +131,7 @@ The example input data we are using is [twitter.avro](src/test/resources/avro/tw
 Upload ``twitter.avro`` to HDFS to make the input data available to our MapReduce jobs.
 
 ```bash
-# upload the input data
+# Upload the input data
 $ hadoop fs -mkdir examples/input
 $ hadoop fs -copyFromLocal src/test/resources/avro/twitter.avro examples/input
 ```
@@ -133,7 +140,7 @@ We will also upload the Avro schema [twitter.avsc](src/main/resources/avro/twitt
 a schema available at an HDFS location in one of the Hive examples.
 
 ```bash
-# upload the Avro schema
+# Upload the Avro schema
 $ hadoop fs -mkdir examples/schema
 $ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
 ```
@@ -144,7 +151,7 @@ $ hadoop fs -copyFromLocal src/main/resources/avro/twitter.avsc examples/schema
 # Java
 
 
-<a name="Build and run"></a>
+<a name="Usage"></a>
 
 ## Usage
 
@@ -273,8 +280,8 @@ Here is the basic data flow from your input data in binary Avro format to our st
 
 The example commands below use the Hadoop Streaming jar _for MRv1_ shipped with Cloudera CDH4:
 
-* [hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.2.1/hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar)
-  (as of May 2013)
+* [hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar](https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/hadoop/hadoop-streaming/2.0.0-mr1-cdh4.3.0/hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar)
+  (as of July 2013)
 
 If you are not using Cloudera CDH4 or are using a new version of CDH4 just replace the jar file with the one included
 in your Hadoop installation.
@@ -299,8 +306,8 @@ step via the option ``-D mapred.reduce.tasks=0`` (see
 Hadoop Streaming documentation).
 
 ```bash
-# run the streaming job
-$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
+# Run the streaming job
+$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
     -D mapred.job.name="avro-streaming" \
     -D mapred.reduce.tasks=0 \
     -files avro-1.7.4.jar,avro-mapred-1.7.4-hadoop1.jar \
@@ -335,7 +342,7 @@ To write the output in Avro format instead of plain-text, use the same general o
 also add:
 
 ```bash
-$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.2.1.jar \
+$ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
     [...]
     -outputformat org.apache.avro.mapred.AvroTextOutputFormat
 ```
@@ -362,7 +369,8 @@ $ java -jar avro-tools-1.7.4.jar tojson part-00000.avro  | head -4
 #### Custom Avro output schema
 
 This looks not to be supported by stock Avro at the moment.  A related JIRA ticket
-[AVRO-1067](https://issues.apache.org/jira/browse/AVRO-1067), created in April 2012, is still unresolved as of May 2013.
+[AVRO-1067](https://issues.apache.org/jira/browse/AVRO-1067), created in April 2012, is still unresolved as of July
+2013.
 
 For a workaround take a look at the section _Avro output for Hadoop Streaming_ at
 [avro-utils](https://github.com/tomslabs/avro-utils), a third-party library for Avro.
@@ -372,10 +380,10 @@ For a workaround take a look at the section _Avro output for Hadoop Streaming_ a
 
 If you want to enable compression for the Avro output data, you must add the following parameters to the streaming job:
 
-    # for Snappy
+    # For compression with Snappy
     -D mapred.output.compress=true -D avro.output.codec=snappy
 
-    # for Deflate
+    # For compression with Deflate
     -D mapred.output.compress=true -D avro.output.codec=deflate
 
 Be aware that if you enable compression with ``mapred.output.compress`` but are NOT specifying an Avro output format
@@ -578,11 +586,11 @@ As you can see Hive makes working Avro data completely transparent once you have
 
 To enable compression add the following statements to your Hive script or enter them into the Hive shell:
 
-    # for compression with Snappy
+    # For compression with Snappy
     SET hive.exec.compress.output=true;
     SET avro.output.codec=snappy;
 
-    # for compression with Deflate
+    # For compression with Deflate
     SET hive.exec.compress.output=true;
     SET avro.output.codec=deflate;
 
@@ -764,7 +772,35 @@ to discrepancies of Pig and Avro data models (or problems of Pig itself).  See
                 }
             }');
 
-**TODO:** To store the ``usernames`` relation from the _Reading Avro_ section above:
+If you need to store the data in two or more different ways (e.g. you want to rename fields) you must add the parameter
+["index"](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) to the ``AvroStorage`` arguments.  Pig uses this
+information as a workaround to distinguish schemas specified by different AvroStorage calls until Pig's StoreFunc
+provides access to Pig's output schema in the backend.
+
+    STORE records INTO 'pig/output-variant-A/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            '{
+                "index": 1,
+                "schema": { ... }
+            }');
+
+    STORE records INTO 'pig/output-variant-B/'
+        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
+            '{
+                "index": 2,
+                "schema": { ... }
+            }');
+
+See [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) and
+[TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
+for further examples.
+
+
+#### TODO: Show how to store the ``usernames`` relation
+
+_Note: This example is not working yet._
+
+To store the ``usernames`` relation from the _Reading Avro_ section above:
 
     -- TODO: WHY DOES THIS STATEMENT FAIL DURING MAPREDUCE RUNTIME WITH
     --          java.io.IOException: org.apache.avro.file.DataFileWriter$AppendWriteException:
@@ -793,29 +829,6 @@ to discrepancies of Pig and Avro data models (or problems of Pig itself).  See
                 "schema_file": "examples/schema/user.avsc",
                 "field0": "def:username"
             }');
-
-If you need to store the data in two or more different ways (e.g. you want to rename fields) you must add the parameter
-["index"](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) to the ``AvroStorage`` arguments.  Pig uses this
-information as a workaround to distinguish schemas specified by different AvroStorage calls until Pig's StoreFunc
-provides access to Pig's output schema in the backend.
-
-    STORE records INTO 'pig/output-variant-A/'
-        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
-            '{
-                "index": 1,
-                "schema": { ... }
-            }');
-
-    STORE records INTO 'pig/output-variant-B/'
-        USING org.apache.pig.piggybank.storage.avro.AvroStorage(
-            '{
-                "index": 2,
-                "schema": { ... }
-            }');
-
-See [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) and
-[TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
-for further examples.
 
 
 #### Enabling compression of Avro output data
@@ -851,3 +864,22 @@ To disable compression again in the same Pig script/Pig Grunt shell:
 # Related documentation
 
 * [Reading and Writing Avro Files From the Command Line](http://www.michael-noll.com/blog/2013/03/17/reading-and-writing-avro-files-from-the-command-line/)
+
+
+<a name="Contributing"></a>
+
+## Contributing to avro-hadoop-starter
+
+Code contributions, bug reports, feature requests etc. are all welcome.
+
+If you are new to GitHub please read [Contributing to a project](https://help.github.com/articles/fork-a-repo) for how
+to send patches and pull requests to avro-hadoop-starter.
+
+
+<a name="License"></a>
+
+## License
+
+Copyright © 2013 Michael G. Noll
+
+See [LICENSE](LICENSE) for licensing information.

@@ -4,7 +4,11 @@ buildscript {
         mavenRepo url: "http://clojars.org/repo"
     }
     dependencies {
+<<<<<<< HEAD
         classpath 'com.mapvine:gradle-cobertura-plugin:1.0'
+=======
+        classpath 'com.eriwen:gradle-cobertura-plugin:1.1.0'
+>>>>>>> a40bf43dd5a214ecaea0535fc309c0deb34fb764
         classpath 'org.apache.maven:maven-artifact:2.2.1'
         classpath 'org.apache.avro:avro-compiler:1.7.4'
         classpath 'org.clojars.miguno:avro-gradle-plugin:1.7.2'
@@ -45,8 +49,13 @@ dependencies {
     compile group: 'com.beust', name: 'jcommander', version: '1.30'
     compile group: 'org.apache.avro', name: 'avro', version: '1.7.4'
     compile group: 'org.apache.avro', name: 'avro-mapred', version: '1.7.4', classifier: 'hadoop1'
+<<<<<<< HEAD
     compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.0.0-cdh4.2.0'
     compile group: 'org.apache.hadoop', name: 'hadoop-core', version: '2.0.0-mr1-cdh4.2.0'
+=======
+    compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.0.0-cdh4.3.0'
+    compile group: 'org.apache.hadoop', name: 'hadoop-core', version: '2.0.0-mr1-cdh4.3.0'
+>>>>>>> a40bf43dd5a214ecaea0535fc309c0deb34fb764
 
     // Required to fix a Snappy native library error on OS X when trying to compress Avro files with Snappy;
     // Avro 1.7.4 uses the latest stable release of Snappy, 1.0.4.1 (see avro/lang/java/pom.xml) that still contains
@@ -57,9 +66,15 @@ dependencies {
     //
     compile group: 'org.xerial.snappy', name: 'snappy-java', version: '1.0.5-M4'
 
+<<<<<<< HEAD
     testCompile group: 'org.apache.hadoop', name: 'hadoop-test', version: '2.0.0-mr1-cdh4.2.0'
     testCompile group: 'org.apache.hadoop', name: 'hadoop-minicluster', version: '2.0.0-mr1-cdh4.2.0'
     testCompile group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '2.0.0-cdh4.2.0'
+=======
+    testCompile group: 'org.apache.hadoop', name: 'hadoop-test', version: '2.0.0-mr1-cdh4.3.0'
+    testCompile group: 'org.apache.hadoop', name: 'hadoop-minicluster', version: '2.0.0-mr1-cdh4.3.0'
+    testCompile group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '2.0.0-cdh4.3.0'
+>>>>>>> a40bf43dd5a214ecaea0535fc309c0deb34fb764
     // Workaround for a known bug in commons-daemon 1.0.3, which is a transitive dependency of hadoop-hdfs
     testCompile("commons-daemon:commons-daemon:1.0.5") {
         // Force version 1.0.5 because of a known bug in the 1.0.3 pom file that results in the following build error:
@@ -132,7 +147,11 @@ test {
     jvmArgs "-XX:-UseSplitVerifier"
 }
 
+<<<<<<< HEAD
 // see https://github.com/Mapvine/gradle-cobertura-plugin
+=======
+// https://github.com/eriwen/gradle-cobertura-plugin
+>>>>>>> a40bf43dd5a214ecaea0535fc309c0deb34fb764
 cobertura {
     format = 'xml'
     includes = ['**/*.java']
