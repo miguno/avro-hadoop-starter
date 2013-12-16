@@ -6,7 +6,7 @@ buildscript {
   dependencies {
     classpath 'com.eriwen:gradle-cobertura-plugin:1.1.1'
     classpath 'org.apache.maven:maven-artifact:2.2.1'
-    classpath 'org.apache.avro:avro-compiler:1.7.4'
+    classpath 'org.apache.avro:avro-compiler:1.7.5'
     classpath 'org.clojars.miguno:avro-gradle-plugin:1.7.2'
     // see https://github.com/musketyr/gradle-fatjar-plugin
     classpath 'eu.appsatori:gradle-fatjar-plugin:0.2-rc1'
@@ -45,19 +45,10 @@ dependencies {
   compile group: 'log4j', name: 'log4j', version: '1.2.17'
   compile group: 'com.google.guava', name: 'guava', version: '14.0'
   compile group: 'com.beust', name: 'jcommander', version: '1.30'
-  compile group: 'org.apache.avro', name: 'avro', version: '1.7.4'
-  compile group: 'org.apache.avro', name: 'avro-mapred', version: '1.7.4', classifier: 'hadoop1'
+  compile group: 'org.apache.avro', name: 'avro', version: '1.7.5'
+  compile group: 'org.apache.avro', name: 'avro-mapred', version: '1.7.5', classifier: 'hadoop1'
   compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.0.0-cdh4.3.0'
   compile group: 'org.apache.hadoop', name: 'hadoop-core', version: '2.0.0-mr1-cdh4.3.0'
-
-  // Required to fix a Snappy native library error on OS X when trying to compress Avro files with Snappy;
-  // Avro 1.7.4 uses the latest stable release of Snappy, 1.0.4.1 (see avro/lang/java/pom.xml) that still contains
-  // the original bug described at https://github.com/xerial/snappy-java/issues/6.
-  //
-  // Note that in a production setting we do not care about OS X, so we could use Snappy 1.0.4.1 as required by
-  // Avro 1.7.4 as is.
-  //
-  compile group: 'org.xerial.snappy', name: 'snappy-java', version: '1.1.0.1'
 
   testCompile group: 'org.apache.hadoop', name: 'hadoop-test', version: '2.0.0-mr1-cdh4.3.0'
   testCompile group: 'org.apache.hadoop', name: 'hadoop-minicluster', version: '2.0.0-mr1-cdh4.3.0'
