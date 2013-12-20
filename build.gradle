@@ -24,7 +24,7 @@ apply plugin: 'idea'
 // group is the groupId
 group = 'com.miguno.avro'
 //the default artifactId is the project name, which is per default the directory name of the project
-version = '0.1.0-SNAPSHOT'
+version = '0.2.0-SNAPSHOT'
 
 description = """Example MapReduce jobs that read and/or write data in Avro format"""
 
