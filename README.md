@@ -1,5 +1,4 @@
-avro-hadoop-starter
-===================
+# avro-hadoop-starter [![Build Status](https://travis-ci.org/miguno/avro-hadoop-starter.png?branch=master)](https://travis-ci.org/miguno/avro-hadoop-starter)
 
 Example MapReduce jobs in Java, Hadoop Streaming, Pig and Hive that read and/or write data in Avro format.
 
