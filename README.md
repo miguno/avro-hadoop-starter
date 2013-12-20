@@ -180,8 +180,8 @@ To run the unit tests (notably `TweetCountTest`, see section _Examples_ below):
 $ ./gradlew test
 ```
 
-Note: `./gradlew test` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run `./gradlew testng`
-for executing those.
+Note: `./gradlew test` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run
+`./gradlew testng` for executing those.
 
 
 <a name="Examples-Java"></a>
