@@ -45,8 +45,8 @@ The examples require the following software versions:
 
 * [Gradle](http://www.gradle.org/) 1.9 (only for the Java examples)
 * Java JDK 7 (only for the Java examples)
-    * It is easy to switch to JDK 6.  Mostly you will need to change the ``sourceCompatibility`` and
-      ``targetCompatibility`` parameters in [build.gradle](build.gradle) from ``1.7`` to ``1.6``.  But since there are
+    * It is easy to switch to JDK 6.  Mostly you will need to change the `sourceCompatibility` and
+      `targetCompatibility` parameters in [build.gradle](build.gradle) from `1.7` to `1.6`  But since there are
         a couple of JDK 7 related gotchas (e.g. problems with its new bytecode verifier) that the Java example code
         solves I decided to stick with JDK 7 as the default.
 * [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2/YARN)
@@ -128,7 +128,7 @@ Here is a snippet of the example data:
 ## Preparing the input data
 
 The example input data we are using is [twitter.avro](src/test/resources/avro/twitter.avro).
-Upload ``twitter.avro`` to HDFS to make the input data available to our MapReduce jobs.
+Upload `twitter.avro` to HDFS to make the input data available to our MapReduce jobs.
 
 ```bash
 # Upload the input data
@@ -165,23 +165,23 @@ $ ./gradlew cleanIdea idea   # then File > Open... > avro-hadoop-starter.ipr
 $ ./gradlew cleanEclipse eclipse
 ```
 
-To build the Java code and to compile the Avro-based Java classes from the schemas (``*.avsc``) in
-``src/main/resources/avro/``:
+To build the Java code and to compile the Avro-based Java classes from the schemas (`*.avsc`) in
+`src/main/resources/avro/`:
 
 ```bash
 $ ./gradlew clean build
 ```
 
-The generated Avro-based Java classes are written under the directory tree ``generated-sources/``.  The Avro
-compiler will generate a Java class ``Tweet`` from the ``twitter.avsc`` schema.
+The generated Avro-based Java classes are written under the directory tree `generated-sources/`.  The Avro
+compiler will generate a Java class `Tweet` from the `twitter.avsc` schema.
 
-To run the unit tests (notably ``TweetCountTest``, see section _Examples_ below):
+To run the unit tests (notably `TweetCountTest`, see section _Examples_ below):
 
 ```bash
 $ ./gradlew test
 ```
 
-Note: ``./gradlew test`` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run ``./gradlew testng``
+Note: `./gradlew test` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run `./gradlew testng`
 for executing those.
 
 
@@ -199,10 +199,10 @@ of tweets created by Twitter users.
 
 ### TweetCountTest
 
-[TweetCountTest](src/test/java/com/miguno/avro/hadoop/TweetCountTest.java) is very similar to ``TweetCount``.  It uses
+[TweetCountTest](src/test/java/com/miguno/avro/hadoop/TweetCountTest.java) is very similar to `TweetCount`.  It uses
 [twitter.avro](src/test/resources/avro/twitter.avro) as its input and runs a unit test on it with the same MapReduce job
-as ``TweetCount``.  The unit test includes comparing the actual MapReduce output (in Snappy-compressed Avro format) with
-expected output.  ``TweetCountTest`` extends
+as `TweetCount`.  The unit test includes comparing the actual MapReduce output (in Snappy-compressed Avro format) with
+expected output.  `TweetCountTest` extends
 [ClusterMapReduceTestCase](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/ClusterMapReduceTestCase.java)
 (MRv1), which means that the corresponding MapReduce job is launched in-memory via
 [MiniMRCluster](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/MiniMRCluster.java).
@@ -212,7 +212,7 @@ expected output.  ``TweetCountTest`` extends
 
 ## MiniMRCluster and Hadoop MRv2
 
-The MiniMRCluster that is used by ``ClusterMapReduceTestCase`` in MRv1 is deprecated in Hadoop MRv2.  When using MRv2
+The MiniMRCluster that is used by `ClusterMapReduceTestCase` in MRv1 is deprecated in Hadoop MRv2.  When using MRv2
 you should switch to
 [MiniMRClientClusterFactory](https://github.com/apache/hadoop-common/blob/trunk/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-jobclient/src/test/java/org/apache/hadoop/mapred/MiniMRClientClusterFactory.java),
 which provides a wrapper interface called
@@ -259,7 +259,7 @@ Important: The examples below assume you have access to a running Hadoop cluster
 
 When using [AvroAsTextInputFormat](http://avro.apache.org/docs/1.7.4/api/java/org/apache/avro/mapred/AvroAsTextInputFormat.html)
 as the input format your streaming code will receive the data in JSON format, one record ("datum" in Avro parlance) per
-line.  Note that Avro will also add a trailing TAB (``\t``) at the end of each line.
+line.  Note that Avro will also add a trailing TAB (`\t`) at the end of each line.
 
     <JSON representation of Avro record #1>\t
     <JSON representation of Avro record #2>\t
@@ -295,13 +295,13 @@ The Avro jar files are straight from the [Avro project](https://avro.apache.org/
 
 ### Reading Avro, writing plain-text
 
-The following command reads Avro data from the relative HDFS directory ``examples/input/`` (which normally resolves
-to ``/user/<your-unix-username>/examples/input/``).  It writes the
+The following command reads Avro data from the relative HDFS directory `examples/input/` (which normally resolves
+to `/user/<your-unix-username>/examples/input/`).  It writes the
 deserialized version of each data record (see section _How Streaming sees data when reading via AvroAsTextInputFormat_
-above) as is to the output HDFS directory ``streaming/output/``.  For this simple demonstration we are using
-the ``IdentityMapper`` as a naive map step implementation -- it outputs its input data unmodified (equivalently we
-coud use the Unix tool ``cat``, here) .  We do not need to run a reduce phase here, which is why we disable the reduce
-step via the option ``-D mapred.reduce.tasks=0`` (see
+above) as is to the output HDFS directory `streaming/output/`.  For this simple demonstration we are using
+the `IdentityMapper` as a naive map step implementation -- it outputs its input data unmodified (equivalently we
+coud use the Unix tool `cat`, here) .  We do not need to run a reduce phase here, which is why we disable the reduce
+step via the option `-D mapred.reduce.tasks=0` (see
 [Specifying Map-Only Jobs](http://hadoop.apache.org/docs/r1.1.2/streaming.html#Specifying+Map-Only+Jobs) in the
 Hadoop Streaming documentation).
 
@@ -350,8 +350,8 @@ $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
 [AvroTextOutputFormat](http://avro.apache.org/docs/1.7.4/api/java/index.html?org/apache/avro/mapred/AvroTextOutputFormat.html)
 is the equivalent of TextOutputFormat.  It writes Avro data files with a "bytes" schema.
 
-Note that using ``IdentityMapper`` as a naive mapper as shown in the previous example will not result in the output file
-being identical to the input file.  This is because ``AvroTextOutputFormat`` will escape (quote) the input data it
+Note that using `IdentityMapper` as a naive mapper as shown in the previous example will not result in the output file
+being identical to the input file.  This is because `AvroTextOutputFormat` will escape (quote) the input data it
 receives.  An illustration might be worth a thousand words:
 
 ```bash
@@ -386,11 +386,11 @@ If you want to enable compression for the Avro output data, you must add the fol
     # For compression with Deflate
     -D mapred.output.compress=true -D avro.output.codec=deflate
 
-Be aware that if you enable compression with ``mapred.output.compress`` but are NOT specifying an Avro output format
+Be aware that if you enable compression with `mapred.output.compress` but are NOT specifying an Avro output format
 (such as AvroTextOutputFormat) your cluster's configured default compression codec will determine the final format
-of the output data.  For instance, if ``mapred.output.compression.codec`` is set to
-``com.hadoop.compression.lzo.LzopCodec`` then the job's output files would be compressed with LZO (e.g. you would
-see ``part-00000.lzo`` output files instead of uncompressed ``part-00000`` files).
+of the output data.  For instance, if `mapred.output.compression.codec` is set to
+`com.hadoop.compression.lzo.LzopCodec` then the job's output files would be compressed with LZO (e.g. you would
+see `part-00000.lzo` output files instead of uncompressed `part-00000` files).
 
 See also [Compression and Avro](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/latest/CDH4-Installation-Guide/cdh4ig_topic_26_2.html)
 in the CDH4 documentation.
@@ -427,7 +427,7 @@ queries against that data.
 
 #### Using avro.schema.url to point to remote a Avro schema file
 
-The following ``CREATE TABLE`` statement creates an external Hive table named ``tweets`` for storing Twitter messages
+The following `CREATE TABLE` statement creates an external Hive table named `tweets` for storing Twitter messages
 in a very basic data structure that consists of username, content of the message and a timestamp.
 
 ```sql
@@ -444,10 +444,10 @@ CREATE EXTERNAL TABLE tweets
 ```
 
 
-_Note: You must replace ``YOURUSER`` with your actual username._
+_Note: You must replace `YOURUSER` with your actual username._
 _See section [Preparing the input data](#Preparing the input data) above._
 
-The serde parameter ``avro.schema.url`` can use URI schemes such as ``hdfs://``, ``http://`` and ``file://``.  It is
+The serde parameter `avro.schema.url` can use URI schemes such as `hdfs://`, `http://` and `file://`.  It is
 [recommended to use HDFS locations](https://cwiki.apache.org/Hive/avroserde-working-with-avro-from-hive.html) though:
 
 > [If the avro.schema.url points] to a location on HDFS [...], the AvroSerde will then read the file from HDFS, which
@@ -460,7 +460,7 @@ That said, when hosting the schemas on a high-performance web server such as [ng
 efficient at serving static files then using HTTP locations for Avro schemas should not be a problem either.
 
 If you need to point to a particular HDFS namespace you can include the hostname and port of the NameNode in
-``avro.schema.url``:
+`avro.schema.url`:
 
 ```sql
 CREATE EXTERNAL TABLE [...]
@@ -472,8 +472,8 @@ CREATE EXTERNAL TABLE [...]
 
 #### Using avro.schema.literal to embed an Avro schema
 
-An alternative to setting ``avro.schema.url`` and using an external Avro schema is to embed the schema directly within
-the ``CREATE TABLE`` statement:
+An alternative to setting `avro.schema.url` and using an external Avro schema is to embed the schema directly within
+the `CREATE TABLE` statement:
 
 ```sql
 CREATE EXTERNAL TABLE tweets
@@ -497,7 +497,7 @@ CREATE EXTERNAL TABLE tweets
     );
 ```
 
-_Note: You must replace ``YOURUSER`` with your actual username._
+_Note: You must replace `YOURUSER` with your actual username._
 _See section [Preparing the input data](#Preparing the input data) above._
 
 Hive can also use variable substitution to embed the required Avro schema at run-time of a Hive script:
@@ -528,7 +528,7 @@ If for a given Hive table you want to change how the Avro schema is specified yo
 
 ### Analyzing the data with Hive
 
-After you have created the Hive table ``tweets`` with one of the ``CREATE TABLE`` statements above (no matter which),
+After you have created the Hive table `tweets` with one of the `CREATE TABLE` statements above (no matter which),
 you can start analyzing the example data with Hive.  We will demonstrate this via the interactive Hive shell, but you
 can also use a Hive script, of course.
 
@@ -539,7 +539,7 @@ $ hive
 hive>
 ```
 
-Let us inspect how Hive interprets the Avro data with ``DESCRIBE``.  You can also use ``DESCRIBE EXTENDED`` to see even
+Let us inspect how Hive interprets the Avro data with `DESCRIBE`.  You can also use `DESCRIBE EXTENDED` to see even
 more details, including the Avro schema of the table.
 
     hive> DESCRIBE tweets;
@@ -643,7 +643,7 @@ Note: If you also want to work with Python UDFs in PiggyBank you must also regis
 
 ### Reading Avro
 
-To read input data in Avro format you must use ``AvroStorage``.  The following statements show various ways to load
+To read input data in Avro format you must use `AvroStorage`.  The following statements show various ways to load
 Avro data.
 
     -- Easiest case: when the input data contains an embedded Avro schema (our example input data does).
@@ -672,8 +672,8 @@ Avro data.
                 'schema_file', 'hdfs://namenode01:8020/user/YOURUSERNAME/examples/schema/twitter.avsc');
 
 _About "no_schema_check":_
-``AvroStorage`` assumes that all Avro files in sub-directories of an input directory share the same schema, and by
-default ``AvroStorage`` performs a schema check.  This process may take some time (seconds) when the input directory
+`AvroStorage` assumes that all Avro files in sub-directories of an input directory share the same schema, and by
+default `AvroStorage` performs a schema check.  This process may take some time (seconds) when the input directory
 contains many sub-directories and files.  You can set the option "no_schema_check" to disable this schema check.
 
 See [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) and
@@ -683,8 +683,8 @@ for further examples.
 
 ### Analyzing the data with Pig
 
-The ``records`` relation is already in perfectly usable format -- you do not need to manually define a (Pig) schema as
-you would usually do via ``LOAD ... AS (...schema follows...)``.
+The `records` relation is already in perfectly usable format -- you do not need to manually define a (Pig) schema as
+you would usually do via `LOAD ... AS (...schema follows...)`.
 
     grunt> DESCRIBE records;
     records: {username: chararray,tweet: chararray,timestamp: long}
@@ -725,7 +725,7 @@ List the (unique) names of users that created tweets:
 
 ### Writing Avro
 
-To write output data in Avro format you must use ``AvroStorage`` -- just like for reading Avro data.
+To write output data in Avro format you must use `AvroStorage` -- just like for reading Avro data.
 
 It is strongly recommended that you do specify an explicit output schema when writing Avro data.  If you don't then Pig
 will try to infer the output Avro schema from the data's Pig schema -- and this may result in undesirable schemas due
@@ -773,7 +773,7 @@ to discrepancies of Pig and Avro data models (or problems of Pig itself).  See
             }');
 
 If you need to store the data in two or more different ways (e.g. you want to rename fields) you must add the parameter
-["index"](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) to the ``AvroStorage`` arguments.  Pig uses this
+["index"](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) to the `AvroStorage` arguments.  Pig uses this
 information as a workaround to distinguish schemas specified by different AvroStorage calls until Pig's StoreFunc
 provides access to Pig's output schema in the backend.
 
@@ -796,11 +796,11 @@ See [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) a
 for further examples.
 
 
-#### TODO: Show how to store the ``usernames`` relation
+#### TODO: Show how to store the `usernames` relation
 
 _Note: This example is not working yet._
 
-To store the ``usernames`` relation from the _Reading Avro_ section above:
+To store the `usernames` relation from the _Reading Avro_ section above:
 
     -- TODO: WHY DOES THIS STATEMENT FAIL DURING MAPREDUCE RUNTIME WITH
     --          java.io.IOException: org.apache.avro.file.DataFileWriter$AppendWriteException:
@@ -856,7 +856,7 @@ To disable compression again in the same Pig script/Pig Grunt shell:
 * [AvroStorage](https://cwiki.apache.org/confluence/display/PIG/AvroStorage) on the Pig wiki
 * [AvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/main/java/org/apache/pig/piggybank/storage/avro/AvroStorage.java)
 * [TestAvroStorage.java](https://github.com/apache/pig/blob/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/storage/avro/TestAvroStorage.java)
-  -- many unit test examples that demonstrate how to use ``AvroStorage``
+  -- many unit test examples that demonstrate how to use `AvroStorage`
 
 
 <a name="Related documentation"></a>
