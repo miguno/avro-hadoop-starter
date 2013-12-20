@@ -9,7 +9,7 @@ buildscript {
     classpath 'org.apache.avro:avro-compiler:1.7.5'
     classpath 'org.clojars.miguno:avro-gradle-plugin:1.7.2'
     // see https://github.com/musketyr/gradle-fatjar-plugin
-    classpath 'eu.appsatori:gradle-fatjar-plugin:0.2-rc1'
+    classpath 'eu.appsatori:gradle-fatjar-plugin:0.2'
   }
 }
 
