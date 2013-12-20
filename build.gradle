@@ -113,6 +113,11 @@ task testng(type: Test) {
   ext.workingDirectory = 'build/'
 }
 
+// See http://www.gradle.org/docs/current/userguide/gradle_wrapper.html
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.9'
+}
+
 test {
   // Disable JDK 7's new bytecode verifier which requires the need for stack frames.  This is required when running
   // this code via JDK 7.  Otherwise our unit tests will fail because of

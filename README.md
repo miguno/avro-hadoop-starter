@@ -43,7 +43,7 @@ Table of Contents
 
 The examples require the following software versions:
 
-* [Gradle](http://www.gradle.org/) 1.3+ (only for the Java examples)
+* [Gradle](http://www.gradle.org/) 1.9 (only for the Java examples)
 * Java JDK 7 (only for the Java examples)
     * It is easy to switch to JDK 6.  Mostly you will need to change the ``sourceCompatibility`` and
       ``targetCompatibility`` parameters in [build.gradle](build.gradle) from ``1.7`` to ``1.6``.  But since there are
@@ -159,17 +159,17 @@ To prepare your Java IDE:
 
 ```bash
 # IntelliJ IDEA
-$ gradle cleanIdea idea   # then File > Open... > avro-hadoop-starter.ipr
+$ ./gradlew cleanIdea idea   # then File > Open... > avro-hadoop-starter.ipr
 
 # Eclipse
-$ gradle cleanEclipse eclipse
+$ ./gradlew cleanEclipse eclipse
 ```
 
 To build the Java code and to compile the Avro-based Java classes from the schemas (``*.avsc``) in
 ``src/main/resources/avro/``:
 
 ```bash
-$ gradle clean build
+$ ./gradlew clean build
 ```
 
 The generated Avro-based Java classes are written under the directory tree ``generated-sources/``.  The Avro
@@ -178,10 +178,10 @@ compiler will generate a Java class ``Tweet`` from the ``twitter.avsc`` schema.
 To run the unit tests (notably ``TweetCountTest``, see section _Examples_ below):
 
 ```bash
-$ gradle test
+$ ./gradlew test
 ```
 
-Note: ``gradle test`` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run ``gradle testng``
+Note: ``./gradlew test`` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run ``./gradlew testng``
 for executing those.
 
 
