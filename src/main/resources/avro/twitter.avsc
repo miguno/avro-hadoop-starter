@@ -15,5 +15,5 @@
     "type" : "long",
     "doc"  : "Unix epoch time in seconds"
   } ],
-  "doc:" : "A basic schema for storing Twitter messages"
+  "doc" : "A basic schema for storing Twitter messages"
 }
