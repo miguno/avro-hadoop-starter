@@ -962,10 +962,13 @@ For details see [AVRO-803: Java generated Avro classes make using Avro painful a
 
 ### Enforce use of String when using sbt
 
+Add the following to your `build.sbt`, assuming you use cavorite's
+[sbt-avro](https://github.com/cavorite/sbt-avro) plugin:
+
 ```
-// In build.sbt: Tell Avro to use String instead of Utf8
 (stringType in avroConfig) := "String"
 ```
+
 
 ### Enforce use of String when using maven
 
