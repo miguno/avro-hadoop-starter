@@ -242,13 +242,14 @@ information.
 One caveat when using Avro in Java (or Scala, ...) is that you may create a new Avro-backed object with a
 `java.lang.String` parameter (e.g. the username in the Avro schema we use in our examples), but as you convert your data
 record to binary and back to POJO you will observe that Avro actually gives you an instance of
-[Utf8](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/util/Utf8.html) instead of a `java.lang.String`.
+[CharSequence](http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html) instead of a `String`.
+Now the problem is that by default Avro generated Java classes expose
+[CharSequence](http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html) for string fields in their API
+_but unfortunately you cannot use just any CharSequence when interacting with your data records_ -- such as
+[java.lang.String](http://docs.oracle.com/javase/7/docs/api/java/lang/String.html), which does implement `CharSequence`.
+You _must_ use Avro's own [Utf8](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/util/Utf8.html) instead.
 A typical case where you run into this gotcha is when your unit tests complain that doing a round-trip conversion of a
-data record does apparently not result in the original record.  The root cause of this behavior is that Avro generated
-Java classes expose [CharSequence](http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html) in their API
-but you cannot use just any `CharSequence` when interacting with your data records -- such as
-[java.lang.String](http://docs.oracle.com/javase/7/docs/api/java/lang/String.html), which does implement `CharSequence`
-but still it won't do.  You must use [Utf8](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/util/Utf8.html) instead.
+data record does apparently not result in the original record.
 
 One possible remedy to this problem is to instruct Avro to explicitly return an instance of `String`.  This is usually
 what you want as it provides you with the intuitive behavior that you'd typically expect.  Your mileage may vary though.
