@@ -636,7 +636,7 @@ There are good and bad news:
 
 1. Good: You can readily browse Avro-backed Hive tables in Hue via a table's "Sample" tab.
 2. Bad: You cannot (yet) inspect the table metadata -- e.g. column names and types -- for Avro-backed Hive tables via
-   a table's "Columns" tab.
+   a table's "Columns" tab.  Hue will also display "No data available".
 
 ![Browsing data of Avro Hive tables](images/cdh4-hue-hive-table-sample-tab.png?raw=true)
 _Figure 1: Browsing data of Avro Hive tables works as expected._
