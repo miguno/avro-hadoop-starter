@@ -15,7 +15,7 @@ Table of Contents
     * <a href="#Usage">Usage</a>
     * <a href="#Examples-Java">Examples</a>
     * <a href="#MiniMRCluster and Hadoop MRv2">MiniMRCluster and Hadoop MRv2</a>
-    * <a href="#Avro-String-vs-Utf8">Avro: String vs Utf8</a>
+    * <a href="#Avro-String-vs-CharSequence-vs-Utf8">Avro: String vs CharSequence vs Utf8</a>
     * <a href="#Further readings on Java">Further readings on Java</a>
 * <a href="#Hadoop Streaming">Hadoop Streaming</a>
     * <a href="#Preliminaries-Streaming">Preliminaries</a>
@@ -235,9 +235,9 @@ See [Experimenting with MapReduce 2.0](http://blog.cloudera.com/blog/2012/07/exp
 information.
 
 
-<a name="Avro-String-vs-Utf8"></a>
+<a name="Avro-String-vs-CharSequence-vs-Utf8"></a>
 
-## Avro: String vs Utf8
+## Avro: String vs CharSequence vs Utf8
 
 One caveat when using Avro in Java (or Scala, ...) is that you may create a new Avro-backed object with a
 `java.lang.String` parameter (e.g. the username in the Avro schema we use in our examples), but as you convert your data
