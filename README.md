@@ -916,7 +916,8 @@ To disable compression again in the same Pig script/Pig Grunt shell:
 <a name="Examples-Bijection"></a>
 
 [Bijection](https://github.com/twitter/bijection) is a very nifty library to convert between different kinds of data
-formats including Avro.
+formats including Avro.  The examples below use Scala but of course you can also use any other JVM language (including
+good old Java) to work with Bijection.
 
 
 ## Examples
