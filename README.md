@@ -187,6 +187,9 @@ $ ./gradlew test
 Note: `./gradlew test` executes any JUnit unit tests.  If you add any TestNG unit tests you need to run
 `./gradlew testng` for executing those.
 
+You can also run `./gradlew cobertura` which will generate a test coverage report at
+`./build/reports/cobertura/coverage.xml` that you can integrate into your CI setup.
+
 
 <a name="Examples-Java"></a>
 
