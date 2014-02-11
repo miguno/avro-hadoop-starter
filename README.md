@@ -1002,7 +1002,7 @@ to send patches and pull requests to avro-hadoop-starter.
 
 ## License
 
-Copyright © 2013 Michael G. Noll
+Copyright © 2013-2014 Michael G. Noll
 
 See [LICENSE](LICENSE) for licensing information.
 
