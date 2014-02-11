@@ -975,6 +975,18 @@ Add the following to your `build.sbt`, assuming you use cavorite's
 ```
 
 
+### Enforce use of String when using gradle
+
+Add the following to your `build.gradle`, assuming you use my
+[avro-gradle-plugin](https://github.com/miguno/avro-gradle-plugin):
+
+```gradle
+compileAvro {
+  stringType = 'String'
+}
+```
+
+
 ### Enforce use of String when using maven
 
 Add the following to the configuration of
