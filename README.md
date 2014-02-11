@@ -49,7 +49,7 @@ The examples require the following software versions:
         a couple of JDK 7 related gotchas (e.g. problems with its new bytecode verifier) that the Java example code
         solves I decided to stick with JDK 7 as the default.
 * [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2/YARN)
-    * Tested with [Cloudera CDH 4.3](http://www.cloudera.com/content/cloudera/en/products/cdh.html)
+    * Tested with [Cloudera CDH 4.7](http://www.cloudera.com/content/cloudera/en/products/cdh.html)
 * [Pig](http://pig.apache.org/) 0.11
     * Tested with Pig 0.11.0-cdh4.3.0
 * [Hive](http://hive.apache.org/) 0.10
@@ -429,8 +429,33 @@ queries against that data.
 The following `CREATE TABLE` statement creates an external Hive table named `tweets` for storing Twitter messages
 in a very basic data structure that consists of username, content of the message and a timestamp.
 
+
+*For Hive version 0.11+:*
+
+Starting with Hive version 0.11 you must use `SERDEPROPERTIES` instead of `TBLPROPERTIES` to specify the Avro schema.
+If you mistakingly use `TBLPROPERTIES` Hive will complain with a `AvroSerdeException`.
+
 ```sql
+-- Use the following syntax for Hive 0.11+
+--
 CREATE EXTERNAL TABLE tweets
+    COMMENT "A table backed by Avro data with the Avro schema stored in HDFS"
+    ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
+    WITH SERDEPROPERTIES (
+        'avro.schema.url' = 'hdfs:///user/YOURUSER/examples/schema/twitter.avsc'
+    )
+    STORED AS
+    INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
+    OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
+    LOCATION '/user/YOURUSER/examples/input/';
+```
+
+*For Hive versions <= 0.10:*
+
+```sql
+-- Use the following syntax for Hive versions <= 0.10
+--
+CREATE EXTERNAL TABLE tweets_deprecated
     COMMENT "A table backed by Avro data with the Avro schema stored in HDFS"
     ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
     STORED AS
@@ -438,7 +463,7 @@ CREATE EXTERNAL TABLE tweets
     OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
     LOCATION '/user/YOURUSER/examples/input/'
     TBLPROPERTIES (
-        'avro.schema.url'='hdfs:///user/YOURUSER/examples/schema/twitter.avsc'
+        'avro.schema.url' = 'hdfs:///user/YOURUSER/examples/schema/twitter.avsc'
     );
 ```
 
