@@ -57,7 +57,7 @@ The examples require the following software versions:
     * Tested with Pig 0.11.0-cdh4.3.0
 * [Hive](http://hive.apache.org/) 0.10
     * Tested with Hive 0.10.0-cdh4.3.0
-* [Twitter B ijection](https://github.com/twitter/bijection) 0.6
+* [Twitter Bijection](https://github.com/twitter/bijection) 0.6
 * [Avro](http://avro.apache.org/) 1.7.6
 
 
