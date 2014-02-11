@@ -52,13 +52,13 @@ The examples require the following software versions:
         a couple of JDK 7 related gotchas (e.g. problems with its new bytecode verifier) that the Java example code
         solves I decided to stick with JDK 7 as the default.
 * [Hadoop](http://hadoop.apache.org/) 2.x with MRv1 (not MRv2/YARN)
-    * Tested with [Cloudera CDH 4.7](http://www.cloudera.com/content/cloudera/en/products/cdh.html)
 * [Pig](http://pig.apache.org/) 0.11
-    * Tested with Pig 0.11.0-cdh4.3.0
 * [Hive](http://hive.apache.org/) 0.10
-    * Tested with Hive 0.10.0-cdh4.3.0
 * [Twitter Bijection](https://github.com/twitter/bijection) 0.6
 * [Avro](http://avro.apache.org/) 1.7.6
+
+More precisely, the examples where tested with those Hadoop stack components that ship with
+[Cloudera CDH 4.x](http://www.cloudera.com/content/cloudera/en/products/cdh.html).
 
 
 <a name="Example data"></a>
