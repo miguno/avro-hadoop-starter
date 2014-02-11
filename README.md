@@ -429,11 +429,10 @@ queries against that data.
 The following `CREATE TABLE` statement creates an external Hive table named `tweets` for storing Twitter messages
 in a very basic data structure that consists of username, content of the message and a timestamp.
 
-
 *For Hive version 0.11+:*
 
-Starting with Hive version 0.11 you must use `SERDEPROPERTIES` instead of `TBLPROPERTIES` to specify the Avro schema.
-If you mistakingly use `TBLPROPERTIES` Hive will complain with a `AvroSerdeException`.
+Starting with Hive version 0.11 you must use `SERDEPROPERTIES` instead of `WITH TBLPROPERTIES` to specify the Avro
+schema.  If you mistakingly use `TBLPROPERTIES` Hive will complain with a `AvroSerdeException`.
 
 ```sql
 -- Use the following syntax for Hive 0.11+
@@ -467,6 +466,7 @@ CREATE EXTERNAL TABLE tweets_deprecated
     );
 ```
 
+_Important: Notice how `WITH SERDEPROPERTIES` is specified after `SERDE` and `TBLPROPERTIES` after `LOCATION`, respectively._
 
 _Note: You must replace `YOURUSER` with your actual username._
 _See section [Preparing the input data](#Preparing the input data) above._
@@ -488,10 +488,13 @@ If you need to point to a particular HDFS namespace you can include the hostname
 
 ```sql
 CREATE EXTERNAL TABLE [...]
-    TBLPROPERTIES (
+    WITH SERDEPROPERTIES (
         'avro.schema.url'='hdfs://namenode01:8020/path/to/twitter.avsc'
-    );
+    )
+    [...]
 ```
+
+_Note: Remember to use `TBLPROPERTIES` (after `LOCATION`) instead of `WITH SERDEPROPERTIES` (after `SERDE`) for Hive versions <= 0.10._
 
 
 #### Using avro.schema.literal to embed an Avro schema
@@ -503,12 +506,8 @@ the `CREATE TABLE` statement:
 CREATE EXTERNAL TABLE tweets
     COMMENT "A table backed by Avro data with the Avro schema embedded in the CREATE TABLE statement"
     ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
-    STORED AS
-    INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
-    OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
-    LOCATION '/user/YOURUSER/examples/input/'
-    TBLPROPERTIES (
-        'avro.schema.literal'='{
+    WITH SERDEPROPERTIES (
+        'avro.schema.literal' = '{
             "type": "record",
             "name": "Tweet",
             "namespace": "com.miguno.avro",
@@ -518,8 +517,14 @@ CREATE EXTERNAL TABLE tweets
                 { "name":"timestamp", "type":"long"}
             ]
         }'
-    );
+    )
+    STORED AS
+    INPUTFORMAT  'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
+    OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
+    LOCATION '/user/YOURUSER/examples/input/';
 ```
+
+_Note: Remember to use `TBLPROPERTIES` (after `LOCATION`) instead of `WITH SERDEPROPERTIES` (after `SERDE`) for Hive versions <= 0.10._
 
 _Note: You must replace `YOURUSER` with your actual username._
 _See section [Preparing the input data](#Preparing the input data) above._
@@ -528,8 +533,10 @@ Hive can also use variable substitution to embed the required Avro schema at run
 
 ```sql
 CREATE EXTERNAL TABLE tweets [...]
-    TBLPROPERTIES ('avro.schema.literal'='${hiveconf:schema}');
+    WITH SERDEPROPERTIES ('avro.schema.literal' = '${hiveconf:schema}');
 ```
+
+_Note: Remember to use `TBLPROPERTIES` (after `LOCATION`) instead of `WITH SERDEPROPERTIES` (after `SERDE`) for Hive versions <= 0.10._
 
 To execute the Hive script you would then run:
 
