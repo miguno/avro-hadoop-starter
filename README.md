@@ -969,7 +969,8 @@ For details see [AVRO-803: Java generated Avro classes make using Avro painful a
 
 ### Enforce use of String when using maven
 
-Add the following to the configuration of avro-maven-plugin:
+Add the following to the configuration of
+[avro-maven-plugin](http://mvnrepository.com/artifact/org.apache.avro/avro-maven-plugin) in your `pom.xml`:
 
 ```xml
 <stringType>String</stringType>
