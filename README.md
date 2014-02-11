@@ -623,6 +623,21 @@ To disable compression again in the same Hive script/Hive shell:
     SET hive.exec.compress.output=false;
 
 
+### Hive and Hue
+
+There are good and bad news:
+
+1. Good: You can readily browse Avro-backed Hive tables in Hue via a table's "Sample" tab.
+2. Bad: You cannot (yet) inspect the table metadata -- e.g. column names and types -- for Avro-backed Hive tables via
+   a table's "Columns" tab.
+
+![Browsing data of Avro Hive tables](images/cdh4-hue-hive-table-sample-tab.png?raw=true)
+_Figure 1: Browsing data of Avro Hive tables works as expected._
+
+![Displaying metadata of Avro Hive tables](images/cdh4-hue-hive-table-columns-tab.png?raw=true)
+_Figure 2: Displaying metadata of Avro Hive tables does not work yet._
+
+
 <a name="Further readings on Hive"></a>
 
 ## Further readings on Hive
