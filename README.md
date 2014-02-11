@@ -15,6 +15,7 @@ Table of Contents
     * <a href="#Usage">Usage</a>
     * <a href="#Examples-Java">Examples</a>
     * <a href="#MiniMRCluster and Hadoop MRv2">MiniMRCluster and Hadoop MRv2</a>
+    * <a href="#Avro-String-vs-Utf8">Avro: String vs Utf8</a>
     * <a href="#Further readings on Java">Further readings on Java</a>
 * <a href="#Hadoop Streaming">Hadoop Streaming</a>
     * <a href="#Preliminaries-Streaming">Preliminaries</a>
@@ -31,7 +32,6 @@ Table of Contents
     * <a href="#Further readings on Pig">Further readings on Pig</a>
 * <a href="#Bijection">Twitter Bijection</a>
     * <a href="#Examples-Bijection">Examples</a>
-    * <a href="#Avro-String-vs-Utf8">Avro: String vs Utf8</a>
 * <a href="#Related documentation">Related documentation</a>
 * <a href="#Contributing">Contributing to avro-hadoop-starter</a>
 * <a href="#License">License</a>
@@ -233,6 +233,59 @@ around the
 
 See [Experimenting with MapReduce 2.0](http://blog.cloudera.com/blog/2012/07/experimenting-with-mapreduce-2-0/) for more
 information.
+
+
+<a name="Avro-String-vs-Utf8"></a>
+
+## Avro: String vs Utf8
+
+One caveat when using Avro in Java (or Scala, ...) is that you may create a new Avro-backed object with a
+`java.lang.String` parameter (e.g. the username in the Avro schema we use in our examples), but as you convert your data
+record to binary and back to POJO you will observe that Avro actually gives you an instance of
+[Utf8](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/util/Utf8.html) instead of a `java.lang.String`.
+A typical case where you run into this gotcha is when your unit tests complain that doing a round-trip conversion of a
+data record does apparently not result in the original record.  The root cause of this behavior is that Avro generated
+Java classes expose [CharSequence](http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html) in their API
+but you cannot use just any `CharSequence` when interacting with your data records -- such as
+[java.lang.String](http://docs.oracle.com/javase/7/docs/api/java/lang/String.html), which does implement `CharSequence`
+but still it won't do.  You must use [Utf8](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/util/Utf8.html) instead.
+
+One possible remedy to this problem is to instruct Avro to explicitly return an instance of `String`.  This is usually
+what you want as it provides you with the intuitive behavior that you'd typically expect.  Your mileage may vary though.
+
+For details see [AVRO-803: Java generated Avro classes make using Avro painful and surprising](https://issues.apache.org/jira/browse/AVRO-803).
+
+
+### Enforce use of String when using sbt
+
+Add the following to your `build.sbt`, assuming you use cavorite's
+[sbt-avro](https://github.com/cavorite/sbt-avro) plugin:
+
+```
+(stringType in avroConfig) := "String"
+```
+
+
+### Enforce use of String when using gradle
+
+Add the following to your `build.gradle`, assuming you use my
+[avro-gradle-plugin](https://github.com/miguno/avro-gradle-plugin):
+
+```gradle
+compileAvro {
+  stringType = 'String'
+}
+```
+
+
+### Enforce use of String when using maven
+
+Add the following to the configuration of
+[avro-maven-plugin](http://mvnrepository.com/artifact/org.apache.avro/avro-maven-plugin) in your `pom.xml`:
+
+```xml
+<stringType>String</stringType>
+```
 
 
 <a name="Further readings on Java"></a>
@@ -941,59 +994,6 @@ val bytes = Injection[Tweet, Array[Byte]](tweet)
 
 // From byte array back to POJO
 val recovered_tweet = Injection.invert[Tweet, Array[Byte]](bytes)
-```
-
-
-<a name="Avro-String-vs-Utf8"></a>
-
-## Avro: String vs Utf8
-
-One caveat when using Avro in Java (or Scala, ...) is that you may create a new Avro-backed object with a
-`java.lang.String` parameter (e.g. the username in the Avro schema we use in our examples), but as you convert your data
-record to binary and back to POJO you will observe that Avro actually gives you an instance of
-[Utf8](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/util/Utf8.html) instead of a `java.lang.String`.
-A typical case where you run into this gotcha is when your unit tests complain that doing a round-trip conversion of a
-data record does apparently not result in the original record.  The root cause of this behavior is that Avro generated
-Java classes expose [CharSequence](http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html) in their API
-but you cannot use just any `CharSequence` when interacting with your data records -- such as
-[java.lang.String](http://docs.oracle.com/javase/7/docs/api/java/lang/String.html), which does implement `CharSequence`
-but still it won't do.  You must use [Utf8](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/util/Utf8.html) instead.
-
-One possible remedy to this problem is to instruct Avro to explicitly return an instance of `String`.  This is usually
-what you want as it provides you with the intuitive behavior that you'd typically expect.  Your mileage may vary though.
-
-For details see [AVRO-803: Java generated Avro classes make using Avro painful and surprising](https://issues.apache.org/jira/browse/AVRO-803).
-
-
-### Enforce use of String when using sbt
-
-Add the following to your `build.sbt`, assuming you use cavorite's
-[sbt-avro](https://github.com/cavorite/sbt-avro) plugin:
-
-```
-(stringType in avroConfig) := "String"
-```
-
-
-### Enforce use of String when using gradle
-
-Add the following to your `build.gradle`, assuming you use my
-[avro-gradle-plugin](https://github.com/miguno/avro-gradle-plugin):
-
-```gradle
-compileAvro {
-  stringType = 'String'
-}
-```
-
-
-### Enforce use of String when using maven
-
-Add the following to the configuration of
-[avro-maven-plugin](http://mvnrepository.com/artifact/org.apache.avro/avro-maven-plugin) in your `pom.xml`:
-
-```xml
-<stringType>String</stringType>
 ```
 
 
