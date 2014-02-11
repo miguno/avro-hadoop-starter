@@ -4,7 +4,7 @@ buildscript {
     maven { url "http://clojars.org/repo" }
   }
   dependencies {
-    classpath 'com.eriwen:gradle-cobertura-plugin:1.1.1'
+    classpath 'net.saliman:gradle-cobertura-plugin:2.2.2'
     classpath 'org.apache.maven:maven-artifact:2.2.1'
     classpath 'org.apache.avro:avro-compiler:1.7.6'
     classpath 'org.clojars.miguno:avro-gradle-plugin:1.7.2'
@@ -126,10 +126,10 @@ test {
   jvmArgs "-XX:-UseSplitVerifier"
 }
 
-// https://github.com/eriwen/gradle-cobertura-plugin
+// https://github.com/stevesaliman/gradle-cobertura-plugin
+// http://ingorichter.blogspot.ch/2013/03/using-cobertura-with-gradle.html for list of options
 cobertura {
-  format = 'xml'
-  includes = ['**/*.java']
+  coverageFormats = ['xml', 'html']
 }
 
 mainClassName = "com.miguno.avro.hadoop.TweetCountTest"
