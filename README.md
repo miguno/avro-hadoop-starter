@@ -281,11 +281,29 @@ compileAvro {
 
 ### Enforce use of String when using maven
 
-Add the following to the configuration of
-[avro-maven-plugin](http://mvnrepository.com/artifact/org.apache.avro/avro-maven-plugin) in your `pom.xml`:
+Add `<stringType>String</stringType>` to the configuration of
+[avro-maven-plugin](http://mvnrepository.com/artifact/org.apache.avro/avro-maven-plugin) in your `pom.xml`.
+
+Real-world example:
 
 ```xml
-<stringType>String</stringType>
+<plugin>
+  <groupId>org.apache.avro</groupId>
+  <artifactId>avro-maven-plugin</artifactId>
+  <version>1.7.7</version>
+  <executions>
+    <execution>
+      <phase>generate-sources</phase>
+      <goals>
+        <goal>schema</goal>
+      </goals>
+      <configuration>
+        <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
+        <stringType>String</stringType>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
 ```
 
 
