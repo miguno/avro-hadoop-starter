@@ -7,7 +7,7 @@ buildscript {
     classpath 'net.saliman:gradle-cobertura-plugin:2.2.2'
     classpath 'org.apache.maven:maven-artifact:2.2.1'
     classpath 'org.apache.avro:avro-compiler:1.7.7'
-    classpath 'org.clojars.miguno:avro-gradle-plugin:1.7.6'
+    classpath 'org.clojars.miguno:avro-gradle-plugin:1.7.7.2'
     // see https://github.com/musketyr/gradle-fatjar-plugin
     classpath 'eu.appsatori:gradle-fatjar-plugin:0.2'
   }
