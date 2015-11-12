@@ -264,7 +264,7 @@ Add `(stringType in avroConfig) := "String"` to your `build.sbt`, assuming you u
 
 Real-world `build.sbt` example:
 
-```
+```scala
 seq(sbtavro.SbtAvro.avroSettings : _*)
 
 // Configure the desired Avro version.  sbt-avro automatically injects a libraryDependency.
