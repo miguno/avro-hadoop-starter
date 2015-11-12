@@ -55,7 +55,7 @@ The examples require the following software versions:
 * [Pig](http://pig.apache.org/) 0.11
 * [Hive](http://hive.apache.org/) 0.10
 * [Twitter Bijection](https://github.com/twitter/bijection) 0.6
-* [Avro](http://avro.apache.org/) 1.7.6
+* [Avro](http://avro.apache.org/) 1.7.7
 
 More precisely, the examples where tested with those Hadoop stack components that ship with
 [Cloudera CDH 4.x](http://www.cloudera.com/content/cloudera/en/products/cdh.html).
@@ -247,7 +247,7 @@ Now the problem is that by default Avro generated Java classes expose
 [CharSequence](http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html) for string fields in their API
 _but unfortunately you cannot use just any CharSequence when interacting with your data records_ -- such as
 [java.lang.String](http://docs.oracle.com/javase/7/docs/api/java/lang/String.html), which does implement `CharSequence`.
-You _must_ use Avro's own [Utf8](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/util/Utf8.html) instead.
+You _must_ use Avro's own [Utf8](http://avro.apache.org/docs/1.7.7/api/java/org/apache/avro/util/Utf8.html) instead.
 A typical case where you run into this gotcha is when your unit tests complain that doing a round-trip conversion of a
 data record does apparently not result in the original record.
 
@@ -321,7 +321,7 @@ Real-world `pom.xml` example:
 
 ## Further readings on Java
 
-* [Package Documentation for org.apache.avro.mapred](http://avro.apache.org/docs/1.7.6/api/java/index.html?org/apache/avro/mapred/package-summary.html)
+* [Package Documentation for org.apache.avro.mapred](http://avro.apache.org/docs/1.7.7/api/java/index.html?org/apache/avro/mapred/package-summary.html)
   -- Run Hadoop MapReduce jobs over Avro data, with map and reduce functions written in Java.  This document provides
   detailed information on how you should use the Avro Java API to implement MapReduce jobs that read and/or write data
   in Avro format.
@@ -345,7 +345,7 @@ Important: The examples below assume you have access to a running Hadoop cluster
 
 ## How Streaming sees data when reading via AvroAsTextInputFormat
 
-When using [AvroAsTextInputFormat](http://avro.apache.org/docs/1.7.6/api/java/org/apache/avro/mapred/AvroAsTextInputFormat.html)
+When using [AvroAsTextInputFormat](http://avro.apache.org/docs/1.7.7/api/java/org/apache/avro/mapred/AvroAsTextInputFormat.html)
 as the input format your streaming code will receive the data in JSON format, one record ("datum" in Avro parlance) per
 line.  Note that Avro will also add a trailing TAB (`\t`) at the end of each line.
 
@@ -376,9 +376,9 @@ in your Hadoop installation.
 
 The Avro jar files are straight from the [Avro project](https://avro.apache.org/releases.html):
 
-* [avro-1.7.6.jar](http://www.eu.apache.org/dist/avro/avro-1.7.6/java/avro-1.7.6.jar)
-* [avro-mapred-1.7.6-hadoop1.jar](http://www.eu.apache.org/dist/avro/avro-1.7.6/java/avro-mapred-1.7.6-hadoop1.jar)
-* [avro-tools-1.7.6.jar](http://www.eu.apache.org/dist/avro/avro-1.7.6/java/avro-tools-1.7.6.jar)
+* [avro-1.7.7.jar](http://www.eu.apache.org/dist/avro/avro-1.7.7/java/avro-1.7.7.jar)
+* [avro-mapred-1.7.7-hadoop1.jar](http://www.eu.apache.org/dist/avro/avro-1.7.7/java/avro-mapred-1.7.7-hadoop1.jar)
+* [avro-tools-1.7.7.jar](http://www.eu.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar)
 
 
 ### Reading Avro, writing plain-text
@@ -398,8 +398,8 @@ Hadoop Streaming documentation).
 $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
     -D mapred.job.name="avro-streaming" \
     -D mapred.reduce.tasks=0 \
-    -files avro-1.7.6.jar,avro-mapred-1.7.6-hadoop1.jar \
-    -libjars avro-1.7.6.jar,avro-mapred-1.7.6-hadoop1.jar \
+    -files avro-1.7.7.jar,avro-mapred-1.7.7-hadoop1.jar \
+    -libjars avro-1.7.7.jar,avro-mapred-1.7.7-hadoop1.jar \
     -input  examples/input/ \
     -output streaming/output/ \
     -mapper org.apache.hadoop.mapred.lib.IdentityMapper \
@@ -435,7 +435,7 @@ $ hadoop jar hadoop-streaming-2.0.0-mr1-cdh4.3.0.jar \
     -outputformat org.apache.avro.mapred.AvroTextOutputFormat
 ```
 
-[AvroTextOutputFormat](http://avro.apache.org/docs/1.7.6/api/java/index.html?org/apache/avro/mapred/AvroTextOutputFormat.html)
+[AvroTextOutputFormat](http://avro.apache.org/docs/1.7.7/api/java/index.html?org/apache/avro/mapred/AvroTextOutputFormat.html)
 is the equivalent of TextOutputFormat.  It writes Avro data files with a "bytes" schema.
 
 Note that using `IdentityMapper` as a naive mapper as shown in the previous example will not result in the output file
@@ -446,7 +446,7 @@ receives.  An illustration might be worth a thousand words:
 # After having used IdentityMapper as in the previous example
 $ hadoop fs -copyToLocal streaming/output/part-00000.avro .
 
-$ java -jar avro-tools-1.7.6.jar tojson part-00000.avro  | head -4
+$ java -jar avro-tools-1.7.7.jar tojson part-00000.avro  | head -4
 "{\"username\": \"miguno\", \"tweet\": \"Rock: Nerf paper, scissors is fine.\", \"timestamp\": 1366150681}\t"
 "{\"username\": \"BlizzardCS\", \"tweet\": \"Works as intended.  Terran is IMBA.\", \"timestamp\": 1366154481}\t"
 "{\"username\": \"DarkTemplar\", \"tweet\": \"From the shadows I come!\", \"timestamp\": 1366154681}\t"
