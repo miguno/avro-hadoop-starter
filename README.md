@@ -259,10 +259,20 @@ For details see [AVRO-803: Java generated Avro classes make using Avro painful a
 
 ### Enforce use of String when using sbt
 
-Add the following to your `build.sbt`, assuming you use cavorite's
+Add `(stringType in avroConfig) := "String"` to your `build.sbt`, assuming you use cavorite's
 [sbt-avro](https://github.com/cavorite/sbt-avro) plugin:
 
+Real-world `build.sbt` example:
+
 ```
+seq(sbtavro.SbtAvro.avroSettings : _*)
+
+// Configure the desired Avro version.  sbt-avro automatically injects a libraryDependency.
+(version in avroConfig) := "1.7.7"
+
+// Look for *.avsc etc. files in src/test/avro
+(sourceDirectory in avroConfig) <<= (sourceDirectory in Compile)(_ / "avro")
+
 (stringType in avroConfig) := "String"
 ```
 
@@ -284,7 +294,7 @@ compileAvro {
 Add `<stringType>String</stringType>` to the configuration of
 [avro-maven-plugin](http://mvnrepository.com/artifact/org.apache.avro/avro-maven-plugin) in your `pom.xml`.
 
-Real-world example:
+Real-world `pom.xml` example:
 
 ```xml
 <plugin>
